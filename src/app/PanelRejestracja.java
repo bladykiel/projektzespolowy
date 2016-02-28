@@ -1,5 +1,7 @@
 package app;
 
+import java.awt.Color;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigInteger;
@@ -18,13 +20,13 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class PanelRejestracja {
-	PanelRejestracja(){
+	PanelRejestracja(Point punkt){
 		JFrame RejestracjaFrame = new JFrame("Rejestracja");
 		RejestracjaFrame.setLayout(null);
 		RejestracjaFrame.setResizable(false);
 		RejestracjaFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		RejestracjaFrame.setSize(400, 400);
-		
+		RejestracjaFrame.setLocation(punkt);
 		JLabel loginL = new JLabel("Podaj nazwe");
 		loginL.setBounds(60, 60, 100, 25);
 		JTextField login = new JTextField();
@@ -35,6 +37,13 @@ public class PanelRejestracja {
 		JPasswordField haslo = new JPasswordField();
 		haslo.setBounds(200, 100, 100, 25);
 		
+		
+		JLabel hasloL2 = new JLabel("Powtorz haslo");
+		hasloL2.setBounds(200, 130, 100, 25);
+		JPasswordField haslo2 = new JPasswordField();
+		haslo2.setBounds(200, 150, 100, 25);
+		
+		
 		JButton zarejestrujB = new JButton("Zarejestruj");
 		zarejestrujB.setBounds(100, 200, 100, 25);
 		
@@ -42,16 +51,14 @@ public class PanelRejestracja {
 		wrocB.setBounds(100, 250, 100, 25);
 
 		
-		
-
+	
 		
 		zarejestrujB.addActionListener(new ActionListener()
 		{
+		@SuppressWarnings("deprecation")
 		public void actionPerformed(ActionEvent arg0)
 		{
-		     
-			 
-			@SuppressWarnings("deprecation")
+	if(haslo.getText().equals(haslo2.getText())){
 			String input = haslo.getText();
 			 MessageDigest m=null;
 			try {
@@ -85,7 +92,7 @@ public class PanelRejestracja {
 	    				+ " (name, password, access)"
 	    				+ " VALUES('"+login.getText()+"','"+new BigInteger(1,m.digest()).toString(16)+"',1)";
 	     	loginST.execute(updateTableSQL);
-	     	new Logowanie();
+	     	new Logowanie(RejestracjaFrame.getLocation());
 	     	RejestracjaFrame.dispose();
 		    }
 		    loginST.close();
@@ -93,7 +100,11 @@ public class PanelRejestracja {
 			catch(Exception e){
 				System.out.println(e);
 			}
-			
+	}
+	else
+	{
+		JOptionPane.showMessageDialog(RejestracjaFrame, "Wpisano rozne hasla!.");
+	}
 		}});
 		
 		wrocB.addActionListener(new ActionListener()
@@ -109,6 +120,8 @@ public class PanelRejestracja {
 		RejestracjaFrame.add(haslo);
 		RejestracjaFrame.add(loginL);
 		RejestracjaFrame.add(hasloL);
+		RejestracjaFrame.add(hasloL2);
+		RejestracjaFrame.add(haslo2);
 		RejestracjaFrame.setVisible(true);
 	}
 	

@@ -1,7 +1,21 @@
 package app;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -9,38 +23,92 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 
 
 public class Logowanie {
-	public Logowanie() {
+	public Logowanie(){
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		Point punkcik = new Point(screenSize.width/2-140,50);
+		new Logowanie(punkcik);
+	}
+	public Logowanie(Point punkt) {
 	JFrame LogowanieFrame = new JFrame("Logowanie");
 	LogowanieFrame.setResizable(false);
 	LogowanieFrame.setLayout(null);
 	LogowanieFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	LogowanieFrame.setSize(280, 320);
+	LogowanieFrame.setSize(280, 500);
+	LogowanieFrame.getContentPane().setBackground(new Color(50,88,145));
+	LogowanieFrame.setLocation(punkt);
+	
+	ImageIcon logo = null;
+    try {
+    	logo = new ImageIcon("res/logo.png");
+    	
+    } catch (Exception e) {
+        System.err.println("load error: " + e.getMessage());
+    }
+	JLabel LogoL = new JLabel(logo);
+	LogoL.setBounds(LogowanieFrame.getWidth()/2-50, 10, 100, 100);
+	
+	Font myFont = new Font("Serif", Font.BOLD | Font.BOLD, 16);
+	JLabel zalogujInfo = new JLabel("Zaloguj siê");
+	zalogujInfo.setBounds(25, 5, 100, 25);
+	zalogujInfo.setFont(myFont);
+	
+	JPanel panel = new JPanel();
+	panel.setBounds(10, 140, LogowanieFrame.getWidth()-25,200);
+	panel.setBackground(new Color(220,220,220));
+	panel.setLayout(null);
+	panel.setBorder(new EtchedBorder(EtchedBorder.RAISED));
+	
+	//panel.setBorder(setBorder(new BevelBorder(BevelBorder.LOWERED)););
+	
+	myFont = new Font("Serif", Font.BOLD | Font.BOLD, 10);
 	//JTextField - login
 	JLabel loginL = new JLabel("Nazwa uzytkownika");
-	loginL.setBounds(80, 50, 200, 25);
+	loginL.setBounds(15, 40, 200, 25);
+	loginL.setFont(myFont);
 	JLabel hasloL = new JLabel("Haslo uzytkownika");
-	hasloL.setBounds(80, 125, 200, 25);
+	hasloL.setBounds(15, 95, 200, 25);
+	hasloL.setFont(myFont);
 	JTextField login = new JTextField();
-	login.setBounds(80, 75, 100, 25);
+	login.setBounds(15, 60, panel.getWidth()-30, 25);
+	login.setBorder(new RoundedCornerBorder());
+	
 	JPasswordField passwordField = new JPasswordField();
-	passwordField.setBounds(80, 150, 100, 25);
+	passwordField.setBounds(15, 115, panel.getWidth()-30, 25);
+	passwordField.setBorder(new RoundedCornerBorder());
 	//butto zaloguj
 	JButton zalogujB = new JButton("zaloguj");
-	zalogujB.setBounds(30, 200, 100, 50);
-	
+	zalogujB.setBounds(15, 160, 100, 25);
+	zalogujB.setBorder(new RoundedCornerBorder());
+	zalogujB.setBackground(new Color(50,88,145));
+	zalogujB.setForeground(new Color(220,220,220));
 	JButton rejestracjaB = new JButton("Zarejestruj siê!");
-	rejestracjaB.setBounds(160, 200, 100, 50);
+	rejestracjaB.setBounds(125, 370, 120, 25);
+	rejestracjaB.setBorder(new RoundedCornerBorder());
+	rejestracjaB.setForeground(new Color(50,88,145));
+	rejestracjaB.setBackground(new Color(220,220,220));
+	JLabel brakKonta = new JLabel("Nie masz konta?");
+	brakKonta.setBounds(15,370,200,25);
+	brakKonta.setForeground(new Color(220,220,220));
 	//dodanie komponentów do LogowanieFrame
+	LogowanieFrame.add(brakKonta);
+	LogowanieFrame.add(panel);
+	LogowanieFrame.add(LogoL);
 	LogowanieFrame.add(rejestracjaB);
-	LogowanieFrame.add(passwordField);
-	LogowanieFrame.add(zalogujB);
-	LogowanieFrame.add(login);
-	LogowanieFrame.add(loginL);
-	LogowanieFrame.add(hasloL);
+	panel.add(passwordField);
+	panel.add(zalogujB);
+	panel.add(login);
+	panel.add(loginL);
+	panel.add(hasloL);
+	panel.add(zalogujInfo);
 	LogowanieFrame.setVisible(true);
 	
 	//FUNKCJONALNOSC NR 1 - LOGOWANIE
@@ -59,10 +127,7 @@ public class Logowanie {
 			e.printStackTrace();
 		}
 		 m.update(input.getBytes(),0,input.length());
-		 //System.out.println("MD51 "+new BigInteger(1,m.digest()).toString(16));
-		//-------------
-	
-		 
+
 		 
 		 String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy";
 	      String user = "root";
@@ -77,30 +142,23 @@ public class Logowanie {
 		 
 		 
 	    Statement loginST = con.createStatement();
-	    
+	  
 	    loginST.execute("USE projektzespolowy");
 	    ResultSet daneLogowanie = loginST.executeQuery("SELECT * FROM users WHERE name = '"+login.getText()+"'");
 			
 	    if(!daneLogowanie.next()){
 	    	JOptionPane.showMessageDialog(LogowanieFrame, "B³êdna nazwa u¿ytkonika lub haslo.");
 	    }
-	     
 	   else{
-	    /*	if(!daneLogowanie.getString("password").equals(new String(new BigInteger(1,m.digest()).toString(16)))){
-	    		JOptionPane.showMessageDialog(LogowanieFrame, "B³êdna nazwa u¿ytkonika lub haslo.");
-	    	}*/
 	    	do{
 		    	if(daneLogowanie.getString("password").equals(new BigInteger(1,m.digest()).toString(16)) && 
 		    	daneLogowanie.getString("name").equals(login.getText()))
-		    	{//----------
-		    	
-		    		//-------------
-		    		if(daneLogowanie.getInt("access")==777){
+		    	{
+		    		if(daneLogowanie.getInt("access")==777){ //jesli w bazie uzytkownik ma 777 acces zaladuj admina
 		    			System.out.println("admin");
 		    			new PanelAdmina();
 		    			LogowanieFrame.dispose();
-		    		}
-		    		
+		    		}	
 		    		if(daneLogowanie.getInt("access")==1){//pobranieUprawnienU.getInt("nr")){
 		    			System.out.println("uzytkownik");
 		    		
@@ -118,7 +176,6 @@ public class Logowanie {
 		catch(Exception e){
 			System.out.println(e);
 		}
-	
 	}});
 	rejestracjaB.addActionListener(new ActionListener()
 	{
@@ -126,22 +183,10 @@ public class Logowanie {
 	{
 		//FUNKCJONALNOSC NR 3 - dodawanie trasy 
 		LogowanieFrame.dispose();
-		new PanelRejestracja();
-
+		new PanelRejestracja(LogowanieFrame.getLocation());
 	}});
-
-	
-	
-	
-	
 	}
-	
 	public static void main(String[] args) {
 		new Logowanie();
-	}
-
-	
-
-	
-
+	}	
 }
