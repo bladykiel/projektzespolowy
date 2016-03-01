@@ -198,37 +198,7 @@ public class PanelAdmina {
 	}
 //FUNKCJONALNOSC NR 3 - dodawanie trasy 
 	void DodanieTrasy(JFrame AdminFrame){
-		JFrame DodawanieTrasyFrame = new JFrame("Nowa trasa");
-		DodawanieTrasyFrame.setSize(250, 250);
-		DodawanieTrasyFrame.setLocationRelativeTo(null);
-		DodawanieTrasyFrame.setVisible(true);
-		System.out.println("Dodawanie trasy");
-		DodawanieTrasyFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		
-
-		
-		DodawanieTrasyFrame.addWindowListener(new WindowListener() {
-		        public void windowClosing(WindowEvent e) {
-		            if (JOptionPane.showConfirmDialog(DodawanieTrasyFrame, "Anulowaæ dodawanie trasy?", "Anulowaæ?", JOptionPane.YES_NO_OPTION, 0, new ImageIcon("")) != 0) {
-		            	
-		            }
-		            else{
-		            DodawanieTrasyFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		            }
-		           //ghgh
-		        }
-		        public void windowOpened(WindowEvent e) {}
-		        public void windowClosed(WindowEvent e) {}
-		        public void windowIconified(WindowEvent e) {}     
-		        public void windowDeiconified(WindowEvent e) {}
-		        public void windowActivated(WindowEvent e) {}	       
-		        public void windowDeactivated(WindowEvent e) {}
-
-		    });
-		
-
-		  
-			
+		new DodajTrase();		
 	}
 //Koniec funkcjonalnosci nr 3
 //-------------------------------------------------------------

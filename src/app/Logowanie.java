@@ -154,15 +154,24 @@ public class Logowanie {
 		    	daneLogowanie.getString("name").equals(login.getText()))
 		    	{
 		    		if(daneLogowanie.getInt("access")==777){ //jesli w bazie uzytkownik ma 777 acces zaladuj admina
+		    			if(daneLogowanie.getBoolean("banned")==false){
 		    			System.out.println("admin");
 		    			new PanelAdmina(login.getText(),LogowanieFrame.getLocation());
 		    			LogowanieFrame.dispose();
+		    			}
+		    			else{
+		    				JOptionPane.showMessageDialog(LogowanieFrame, "Twoje konto jest zbanowane...");
+		    			}
 		    		}	
 		    		if(daneLogowanie.getInt("access")==1){//pobranieUprawnienU.getInt("nr")){
-		    			System.out.println("uzytkownik");
+		    			if(daneLogowanie.getBoolean("banned")==false){
 		    		
 		    			new PanelUzytkownika(login.getText());
 		    			LogowanieFrame.dispose();
+		    			}
+		    			else{
+		    				JOptionPane.showMessageDialog(LogowanieFrame, "Twoje konto jest zbanowane...");
+		    			}
 		    		}
 				}
 		    	else{
