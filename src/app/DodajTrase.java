@@ -1,29 +1,25 @@
 package app;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -32,7 +28,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SwingConstants;
@@ -144,10 +139,9 @@ public class DodajTrase {
 	    
 		
 		
-	      SimpleDateFormat czasKoncowy = new SimpleDateFormat ("HH:mm:ss");
-	     
-	    	time.setTime(zerowyTime);
-	    	System.out.println("zerowy" +ft.format(time));
+
+	    time.setTime(zerowyTime);
+	    System.out.println("zerowy" +ft.format(time));
 		JLabel czasKoniec = new JLabel();
 		czasKoniec.setText(ft.format(time));
 		czasKoniec.setBounds(200, 450, 100, 150);
@@ -177,6 +171,50 @@ public class DodajTrase {
 		JLabel lacznyCzasPrzejazdu = new JLabel("");
 		lacznyCzasPrzejazdu.setBounds(100, 450, 100, 25);
 		lacznyCzasPrzejazdu.setText("00:00:00");
+		
+	JPanel kursujePanel = new JPanel();
+	kursujePanel.setLayout(null);
+	kursujePanel.setBorder(BorderFactory.createTitledBorder("Kursuje w"));
+	kursujePanel.setBounds(25, 350, 410, 75);
+
+	panelInformacje.add(kursujePanel);
+		
+	      JCheckBox pnCB = new JCheckBox("Poniedzia³ek");
+	      pnCB.setBounds(5, 20, 97, 25);
+	      pnCB.setFocusPainted(false);
+	      kursujePanel.add(pnCB);
+	  
+	      
+	      JCheckBox wtCB = new JCheckBox("Wtorek");
+	      wtCB.setBounds(pnCB.getLocation().x+pnCB.getWidth()+5, 20, 68, 25);
+	      wtCB.setFocusPainted(false);
+	      kursujePanel.add(wtCB);
+	
+	      JCheckBox srCB = new JCheckBox("Œroda");
+	      srCB.setBounds(wtCB.getLocation().x+wtCB.getWidth()+5, 20, 59, 25);
+	      srCB.setFocusPainted(false);
+	      kursujePanel.add(srCB);
+	      
+	      JCheckBox czwCB = new JCheckBox("Czwartek");
+	      czwCB.setBounds(srCB.getLocation().x+srCB.getWidth()+5, 20, 80, 25);
+	      czwCB.setFocusPainted(false);
+	      kursujePanel.add(czwCB);	
+	      
+	      JCheckBox ptCB = new JCheckBox("Pi¹tek");
+	      ptCB.setBounds(czwCB.getLocation().x+czwCB.getWidth()+5, 20, 70, 25);
+	      ptCB.setFocusPainted(false);
+	      kursujePanel.add(ptCB);	
+	      
+	      JCheckBox sobCB = new JCheckBox("Sobota");
+	      sobCB.setBounds(czwCB.getLocation().x, 45, 80, 25);
+	      sobCB.setFocusPainted(false);
+	      kursujePanel.add(sobCB);		     
+	      
+	      JCheckBox niedzCB = new JCheckBox("Niedziela");
+	      niedzCB.setBounds(ptCB.getLocation().x, 45, 78, 25);
+	      niedzCB.setFocusPainted(false);
+	      kursujePanel.add(niedzCB);	
+	      
 		/*
 		DodawanieTrasyFrame.add(czasKoniec);
 
@@ -190,24 +228,24 @@ public class DodajTrase {
 		{
 		public void actionPerformed(ActionEvent arg0)
 		{
-			/* String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy";
+			 String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy" + 
+					 "?useUnicode=true&characterEncoding=utf8";
 		      String user = "root";
 		      String password = "njymjmbnnmbn";
 		      char[] jkjasd = { 'a', 'd', 'm', 'i', 'n'};
 				  password="";
 				  for (int i = 0; i < jkjasd.length; i++) {
 			    	  password= password+jkjasd[i];
-			      }		*/
-			 String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
+			      }		
+			/* String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
 		      String user = "projektzespolowy";
 		      String password = "njymjmbnnmbn";
 		      char[] jkjasd = { 'p', 'r', 'o', 'j', 'e','k','t'};
 				  password="";
 				  for (int i = 0; i < jkjasd.length; i++) {
 			    	  password= password+jkjasd[i];
-			      }	
+			      }	*/
 			try{	
-				SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm:ss");
 				JSpinner.DateEditor de = new JSpinner.DateEditor(czasRozpoczeciaGodz, "HH");
 				JSpinner.DateEditor de2 = new JSpinner.DateEditor(czasRozpoczeciaMin, "mm");
 
@@ -221,13 +259,16 @@ public class DodajTrase {
 			
 				
 		
-			Connection con = DriverManager.getConnection(url, user, password); 
+			Connection con = DriverManager.getConnection(url, user, ""); 
 		    Statement loginST = con.createStatement();
 		    loginST.execute("USE projektzespolowy");
+		   // loginST.execute("SET NAMES 'UTF-8'");
 		    String updateTableSQL = " INSERT INTO routes"
-    				+ " (route_start,price,time_start,duration,distance)"
+    				+ " (route_start,price,time_start,duration,distance,pn,wt,sr,czw,pt,sob,niedz)"
     				+ " VALUES('"+skadText.getText()+"','"+cenaText.getText()+"',"
-    				+"'"+CzasPoczatek+"','"+ft.format(zerowyTime + lacznyCzas*1000L*60L)+"','"+lacznyDystans+"')";
+    				+"'"+CzasPoczatek+"','"+ft.format(zerowyTime + lacznyCzas*1000L*60L)+"','"+lacznyDystans+"',"
+    				+ "'"+booleanToInt(pnCB.isSelected())+"','"+booleanToInt(wtCB.isSelected())+"','"+booleanToInt(srCB.isSelected())+"',"
+    				+ "'"+booleanToInt(czwCB.isSelected())+"','"+booleanToInt(ptCB.isSelected())+"','"+booleanToInt(sobCB.isSelected())+"','"+booleanToInt(niedzCB.isSelected())+"')";
 		    		loginST.execute(updateTableSQL);
 
 		   ResultSet  jakieID = loginST.executeQuery("SELECT MAX(route_id) AS route_id FROM routes");
@@ -347,4 +388,7 @@ public class DodajTrase {
 
 		
 	}
+	 public static int booleanToInt(boolean value) {
+			return value ? 1 : 0;
+		    }
 }

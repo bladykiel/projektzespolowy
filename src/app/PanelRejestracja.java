@@ -68,24 +68,24 @@ public class PanelRejestracja {
 			 m.update(input.getBytes(),0,input.length());
 			// System.out.println("MD51 "+new BigInteger(1,m.digest()).toString(16));
 
-		/*	String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy";
+			String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy";
 		      String user = "root";
 		      String password = "njymjmbnnmbn";
 		      char[] jkjasd = { 'a', 'd', 'm', 'i', 'n'};
 				  password="";
 				  for (int i = 0; i < jkjasd.length; i++) {
 			    	  password= password+jkjasd[i];
-			      }		*/
-			 String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
+			      }		
+			/* String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
 		      String user = "projektzespolowy";
 		      String password = "njymjmbnnmbn";
 		      char[] jkjasd = { 'p', 'r', 'o', 'j', 'e','k','t'};
 				  password="";
 				  for (int i = 0; i < jkjasd.length; i++) {
 			    	  password= password+jkjasd[i];
-			      }	
+			      }	*/
 			try{				
-			Connection con = DriverManager.getConnection(url, user, password);
+			Connection con = DriverManager.getConnection(url, user, "");
 		    Statement loginST = con.createStatement();
 
 		    loginST.execute("USE projektzespolowy");

@@ -192,6 +192,13 @@ public class PanelAdmina {
 		{
 			EdytujTrase();
 		}});
+		
+		wyszukajTraseB.addActionListener(new ActionListener()
+		{
+		public void actionPerformed(ActionEvent arg0)
+		{
+			new WyszukajPolaczenie();
+		}});
 	}
 //FUNKCJONALNOSC NR 3 - dodawanie trasy 
 	void DodanieTrasy(JFrame AdminFrame){
