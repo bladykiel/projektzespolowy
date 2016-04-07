@@ -36,6 +36,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class DodajTrase {
 	Date time = new Date( );
@@ -51,6 +53,7 @@ public class DodajTrase {
 		DodawanieTrasyFrame.setLocationRelativeTo(null);
 		DodawanieTrasyFrame.setVisible(true);
 	//	DodawanieTrasyFrame.setLayout(null);
+	
 		DodawanieTrasyFrame.getContentPane().setBackground(new Color(50,88,145));
 		DodawanieTrasyFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		((JComponent) DodawanieTrasyFrame.getContentPane()).setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -96,7 +99,7 @@ public class DodajTrase {
 		czasRozpoczeciaGodz.setEditor(new JSpinner.DateEditor(czasRozpoczeciaGodz, "HH"));	
 		
 		JLabel godzinaInfo = new JLabel("Podaj godzinê");
-		godzinaInfo.setBounds(330, 30, 200, 25);
+		godzinaInfo.setBounds(342, 30, 70, 25);
 		SpinnerDateModel modelMins = new SpinnerDateModel();
 		modelMins.setCalendarField(Calendar.MINUTE);
 		czasRozpoczeciaMin.setModel(modelMins);
@@ -121,6 +124,7 @@ public class DodajTrase {
 			      new Object[] { "Numer stacji","Nazwa stacji", "Czas przejazdu","Odleg³oœæ" });
 
 	      JTable table = new JTable(model);
+	      table.setShowGrid(false);
 	      for (int c = 0; c < table.getColumnCount(); c++)
 	      {
 	          Class<?> col_class = table.getColumnClass(c);
@@ -162,7 +166,7 @@ public class DodajTrase {
 		panelInformacje.add(skadText);
 		panelInformacje.add(cenaL);
 		panelInformacje.add(pln);
-		panelInformacje.add(DodawanieTrasyFrame.add(scroll));
+		panelInformacje.add(DodawanieTrasyFrame.getContentPane().add(scroll));
 		panelInformacje.add(kolejnaStacjaB);
 		panelInformacje.add(czasRozpoczeciaGodz);
 		panelInformacje.add(czasRozpoczeciaMin);
@@ -222,13 +226,22 @@ public class DodajTrase {
 
 		
 		 ;*/
-		DodawanieTrasyFrame.add(panelInformacje);
+		DodawanieTrasyFrame.getContentPane().add(panelInformacje);
+		JComboBox typTransportuCombo = new JComboBox();
+		typTransportuCombo.setModel(new DefaultComboBoxModel(new String[] {"Poci¹g", "Samolot", "Autobus", "Bus"}));
+		typTransportuCombo.setBounds(170, 319, 93, 20);
+		panelInformacje.add(typTransportuCombo);
+		
+		JLabel typSrodkaL = new JLabel("Typ \u015Arodka Lokomocji");
+		typSrodkaL.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		typSrodkaL.setBounds(169, 304, 103, 14);
+		panelInformacje.add(typSrodkaL);
 
 		dodajTraseB.addActionListener(new ActionListener()
 		{
 		public void actionPerformed(ActionEvent arg0)
 		{
-			 String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy" + 
+		/*	 String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy" + 
 					 "?useUnicode=true&characterEncoding=utf8";
 		      String user = "root";
 		      String password = "njymjmbnnmbn";
@@ -236,15 +249,15 @@ public class DodajTrase {
 				  password="";
 				  for (int i = 0; i < jkjasd.length; i++) {
 			    	  password= password+jkjasd[i];
-			      }		
-			/* String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
+			      }		*/
+			 String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
 		      String user = "projektzespolowy";
 		      String password = "njymjmbnnmbn";
 		      char[] jkjasd = { 'p', 'r', 'o', 'j', 'e','k','t'};
 				  password="";
 				  for (int i = 0; i < jkjasd.length; i++) {
 			    	  password= password+jkjasd[i];
-			      }	*/
+			      }	
 			try{	
 				JSpinner.DateEditor de = new JSpinner.DateEditor(czasRozpoczeciaGodz, "HH");
 				JSpinner.DateEditor de2 = new JSpinner.DateEditor(czasRozpoczeciaMin, "mm");
@@ -259,16 +272,17 @@ public class DodajTrase {
 			
 				
 		
-			Connection con = DriverManager.getConnection(url, user, ""); 
+			Connection con = DriverManager.getConnection(url, user, password); 
 		    Statement loginST = con.createStatement();
 		    loginST.execute("USE projektzespolowy");
 		   // loginST.execute("SET NAMES 'UTF-8'");
 		    String updateTableSQL = " INSERT INTO routes"
-    				+ " (route_start,price,time_start,duration,distance,pn,wt,sr,czw,pt,sob,niedz)"
+    				+ " (route_start,price,time_start,duration,distance,pn,wt,sr,czw,pt,sob,niedz,type)"
     				+ " VALUES('"+skadText.getText()+"','"+cenaText.getText()+"',"
     				+"'"+CzasPoczatek+"','"+ft.format(zerowyTime + lacznyCzas*1000L*60L)+"','"+lacznyDystans+"',"
     				+ "'"+booleanToInt(pnCB.isSelected())+"','"+booleanToInt(wtCB.isSelected())+"','"+booleanToInt(srCB.isSelected())+"',"
-    				+ "'"+booleanToInt(czwCB.isSelected())+"','"+booleanToInt(ptCB.isSelected())+"','"+booleanToInt(sobCB.isSelected())+"','"+booleanToInt(niedzCB.isSelected())+"')";
+    				+ "'"+booleanToInt(czwCB.isSelected())+"','"+booleanToInt(ptCB.isSelected())+"','"+booleanToInt(sobCB.isSelected())+"','"+booleanToInt(niedzCB.isSelected())+"',"
+    						+ "'"+typTransportuCombo.getSelectedItem().toString()+"')";
 		    		loginST.execute(updateTableSQL);
 
 		   ResultSet  jakieID = loginST.executeQuery("SELECT MAX(route_id) AS route_id FROM routes");
@@ -340,7 +354,12 @@ public class DodajTrase {
 		    	lacznyCzas+=czasLiczba;
 		    	System.out.println(ft.format(time));
 		    	liczbaStacji++;
+		    	if(liczbaStacji==1){
+		    		model.addRow(new Object[]{liczbaStacji,nazwaPrzystanku.getText(),"00:00:00",0});
+		    	}
+		    	else{
 		    	model.addRow(new Object[]{liczbaStacji,nazwaPrzystanku.getText(),ft.format(time),odleglosc.getText()});
+		    	}
 		    	nazwaPrzystanku.setText("");
 		    	odleglosc.setText("");
 		    	czasPrzejazdu.setText("");

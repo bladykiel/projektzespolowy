@@ -1,5 +1,6 @@
 package app;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,46 +13,69 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import java.awt.Font;
 
 public class PanelRejestracja {
 	PanelRejestracja(Point punkt){
 		JFrame RejestracjaFrame = new JFrame("Rejestracja");
-		RejestracjaFrame.setLayout(null);
+		//RejestracjaFrame.setLayout(null);
 		RejestracjaFrame.setResizable(false);
 		RejestracjaFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		RejestracjaFrame.setSize(400, 400);
 		RejestracjaFrame.setLocation(punkt);
+		RejestracjaFrame.getContentPane().setBackground(new Color(50,88,145));
+		((JComponent) RejestracjaFrame.getContentPane()).setBorder(new EmptyBorder(10, 10, 10, 10));
+		
+		JPanel panelRejestracja = new JPanel();
+		panelRejestracja.setBorder(new EtchedBorder(EtchedBorder.RAISED));
+		panelRejestracja.setLayout(null);
+		
+		
+		
+		
 		JLabel loginL = new JLabel("Podaj nazwe");
-		loginL.setBounds(60, 60, 100, 25);
+		loginL.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		loginL.setBounds(65, 39, 100, 25);
 		JTextField login = new JTextField();
-		login.setBounds(60, 100, 100, 25);
+		login.setBounds(41, 60, 100, 25);
+		login.setBorder(new RoundedCornerBorder());
 		
 		JLabel hasloL = new JLabel("Podaj haslo");
-		hasloL.setBounds(200, 60, 100, 25);
+		hasloL.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		hasloL.setBounds(65, 96, 100, 25);
 		JPasswordField haslo = new JPasswordField();
-		haslo.setBounds(200, 100, 100, 25);
-		
+		haslo.setBounds(41, 117, 100, 25);
+		haslo.setBorder(new RoundedCornerBorder());
 		
 		JLabel hasloL2 = new JLabel("Powtorz haslo");
-		hasloL2.setBounds(200, 130, 100, 25);
+		hasloL2.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		hasloL2.setBounds(65, 153, 100, 25);
 		JPasswordField haslo2 = new JPasswordField();
-		haslo2.setBounds(200, 150, 100, 25);
-		
+		haslo2.setBounds(41, 176, 100, 25);
+		haslo2.setBorder(new RoundedCornerBorder());
 		
 		JButton zarejestrujB = new JButton("Zarejestruj");
-		zarejestrujB.setBounds(100, 200, 100, 25);
+		zarejestrujB.setBounds(41, 237, 100, 25);
+		zarejestrujB.setBorder(new RoundedCornerBorder());
+		zarejestrujB.setFocusPainted(false);
+		zarejestrujB.setBackground(new Color(50,88,145));
+		zarejestrujB.setForeground(new Color(220,220,220));
 		
 		JButton wrocB = new JButton("Powrot");
-		wrocB.setBounds(100, 250, 100, 25);
-
-		
-	
-		
+		wrocB.setBounds(151, 237, 100, 25);
+		wrocB.setBorder(new RoundedCornerBorder());
+		wrocB.setFocusPainted(false);
+		wrocB.setBackground(new Color(50,88,145));
+		wrocB.setForeground(new Color(220,220,220));
 		zarejestrujB.addActionListener(new ActionListener()
 		{
 		@SuppressWarnings("deprecation")
@@ -121,14 +145,18 @@ public class PanelRejestracja {
 			new Logowanie();
 			RejestracjaFrame.dispose();
 		}});
-		RejestracjaFrame.add(wrocB);
-		RejestracjaFrame.add(zarejestrujB);
-		RejestracjaFrame.add(login);
-		RejestracjaFrame.add(haslo);
-		RejestracjaFrame.add(loginL);
-		RejestracjaFrame.add(hasloL);
-		RejestracjaFrame.add(hasloL2);
-		RejestracjaFrame.add(haslo2);
+		
+		
+		panelRejestracja.add(wrocB);
+		panelRejestracja.add(zarejestrujB);
+		panelRejestracja.add(login);
+		panelRejestracja.add(haslo);
+		panelRejestracja.add(loginL);
+		panelRejestracja.add(hasloL);
+		panelRejestracja.add(hasloL2);
+		panelRejestracja.add(haslo2);
+
+		RejestracjaFrame.getContentPane().add(panelRejestracja);
 		RejestracjaFrame.setVisible(true);
 	}
 	

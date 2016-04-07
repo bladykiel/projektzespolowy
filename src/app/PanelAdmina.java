@@ -27,6 +27,7 @@ public class PanelAdmina {
 		AdminFrame.getContentPane().setBackground(kolorTla);
 		((JComponent) AdminFrame.getContentPane()).setBorder(new EmptyBorder(5, 10, 10, 10)); //dodanie obramowania dla frame
 		AdminFrame.setLocation(punkt); //Ustawienie Frame'a w miejscu poprzedniego
+	
 		//dodanie guzików, labelów, obrazków itd itd
 		ImageIcon dodajTraseI = null;
 		    try {

@@ -120,7 +120,7 @@ public class Logowanie {
 		 m.update(input.getBytes(),0,input.length());
 
 		 
-		 String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy" + 
+	/*	 String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy" + 
 				 "?useUnicode=true&characterEncoding=utf8";
 	      String user = "root";
 	      String password = "njymjmbnnmbn";
@@ -128,17 +128,17 @@ public class Logowanie {
 			  password="";
 			  for (int i = 0; i < jkjasd.length; i++) {
 		    	  password= password+jkjasd[i];
-		      }	
-		/* String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
+		      }	*/
+		 String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
 	      String user = "projektzespolowy";
 	      String password = "njymjmbnnmbn";
 	      char[] jkjasd = { 'p', 'r', 'o', 'j', 'e','k','t'};
 			  password="";
 			  for (int i = 0; i < jkjasd.length; i++) {
 		    	  password= password+jkjasd[i];
-		      }	*/
+		      }	
 		try{				
-		Connection con = DriverManager.getConnection(url, user, "");
+		Connection con = DriverManager.getConnection(url, user, password);
 		 
 		 
 	    Statement loginST = con.createStatement();
