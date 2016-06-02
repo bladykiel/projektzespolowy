@@ -6,6 +6,14 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Date;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -18,16 +26,35 @@ public class PanelAdmina {
 		nazwaU=nazwaUzytkownika;
 	}
 	PanelAdmina(String nazwaUzytkownika,Point punkt){
+		String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy";
+	      String user = "root";
+	      String password = "njymjmbnnmbn";
+	      char[] jkjasd = { 'a', 'd', 'm', 'i', 'n'};
+			  password="";
+			  for (int i = 0; i < jkjasd.length; i++) {
+		    	  password= password+jkjasd[i];
+		      }		
+		/* String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
+	      String user = "projektzespolowy";
+	      String password = "njymjmbnnmbn";
+	      char[] jkjasd = { 'p', 'r', 'o', 'j', 'e','k','t'};
+			  password="";
+			  for (int i = 0; i < jkjasd.length; i++) {
+		    	  password= password+jkjasd[i];
+		      }	*/
+		nazwaU=nazwaUzytkownika;
 		JFrame AdminFrame = new JFrame("Admin");
 		Color kolorTla = new Color(50,88,145);
 		//AdminFrame.setLayout(null);
 		//AdminFrame.setResizable(false);
 		AdminFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		AdminFrame.setSize(350, 500);
+		AdminFrame.setSize(350, 580);
 		AdminFrame.getContentPane().setBackground(kolorTla);
 		((JComponent) AdminFrame.getContentPane()).setBorder(new EmptyBorder(5, 10, 10, 10)); //dodanie obramowania dla frame
 		AdminFrame.setLocation(punkt); //Ustawienie Frame'a w miejscu poprzedniego
 	
+
+		
 		//dodanie guzików, labelów, obrazków itd itd
 		ImageIcon dodajTraseI = null;
 		    try {
@@ -45,8 +72,31 @@ public class PanelAdmina {
 		dodajTraseB.setBackground(null);
 		dodajTraseB.setBorder(null);			
 		
-		JLabel uzytkownikNazwaL = new JLabel("Witaj: "+nazwaUzytkownika);
+		JLabel uzytkownikNazwaL = new JLabel("Witaj: "+nazwaUzytkownika+"         Aktualny czas: ");
 		uzytkownikNazwaL.setForeground(Color.white);
+		
+
+		  SimpleDateFormat ft = new SimpleDateFormat ("HH:mm:ss");
+
+	    
+		 
+		//  uzytkownikNazwaL.setText(uzytkownikNazwaL.getText()+ft.format(dNow));
+		  Runnable r = new Runnable() {
+			  public void run() {
+				  try {
+				      while (true) {
+				    	  Date dNow = new Date( );
+				    	  uzytkownikNazwaL.setText("Witaj: "+nazwaUzytkownika+"         Aktualny czas: ");
+				    	  uzytkownikNazwaL.setText(uzytkownikNazwaL.getText()+ft.format(dNow));
+				    	  System.out.println("bla");
+				        Thread.sleep(1000L);
+				      }
+				    } catch (InterruptedException iex) {}
+				  }
+			};
+			Thread thr1 = new Thread(r);
+			thr1.start();
+		
 		ImageIcon edytujTraseI = null;
 	    try {
 	    	edytujTraseI = new ImageIcon(getClass().getResource("/img/edytujTrase.png"));
@@ -54,6 +104,9 @@ public class PanelAdmina {
 	    } catch (Exception e) {
 	        System.err.println("load error: " + e.getMessage());
 	    }
+	    
+
+	    
 		JButton edytujTraseB = new JButton("edytuj trasê",edytujTraseI);
 		edytujTraseB.setBorder(border);
 		edytujTraseB.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -94,6 +147,7 @@ public class PanelAdmina {
 		wyloguj.setBounds(680, 10, 100, 25);
 		
 		JPanel panel = new JPanel();
+
 		panel.setBounds(10, 140, AdminFrame.getWidth()-35,185);
 		panel.setBackground(new Color(220,220,220));
 	//	panel.setLayout(null);
@@ -118,7 +172,21 @@ public class PanelAdmina {
 		AdminFrame.add(panel,BorderLayout.CENTER);
 		AdminFrame.setJMenuBar(menuBar);
 		AdminFrame.setVisible(true);
-	//zmiana koloru po najechaniu i zjechaniu myszka na button dodajTraseB
+		panel.setLayout(null);
+		ImageIcon logo = null;
+	    try {
+	    	logo = new ImageIcon(getClass().getResource("/img/logo.png"));
+	    	
+	    } catch (Exception e) {
+	        System.err.println("load error: " + e.getMessage());
+	    }
+		JLabel LogoL = new JLabel(logo);
+		LogoL.setBounds(panel.getWidth()/2-50, 370, 100, 100);
+		panel.add(LogoL);
+		
+		
+		
+		//zmiana koloru po najechaniu i zjechaniu myszka na button dodajTraseB
 		dodajTraseB.addMouseListener(new java.awt.event.MouseAdapter() {
 		    public void mouseEntered(java.awt.event.MouseEvent evt) {
 		    	dodajTraseB.setBackground(kolorTla);
@@ -164,11 +232,22 @@ public class PanelAdmina {
 		    }
 		});
 	//listeney do klikniecia buttona
+		
 		dodajTraseMenu.addActionListener(new ActionListener()
 		{
 		public void actionPerformed(ActionEvent arg0)
 		{
-		
+			
+			 try{
+				 Connection conn = DriverManager.getConnection(url, user, ""); 
+				    Statement operacje = conn.createStatement();
+				    operacje.execute("USE projektzespolowy");
+				    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+15+"','"+"Otworzenie dodania trasy przez "+nazwaU+"')";
+				    operacje.execute(operacjeSQL);
+				 }
+				 catch(Exception e){
+					 
+				 }
 			DodanieTrasy(AdminFrame);
 		}});
 		
@@ -176,6 +255,16 @@ public class PanelAdmina {
 		{
 		public void actionPerformed(ActionEvent arg0)
 		{
+			 try{
+				 Connection conn = DriverManager.getConnection(url, user, ""); 
+				    Statement operacje = conn.createStatement();
+				    operacje.execute("USE projektzespolowy");
+				    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+15+"','"+"Otworzenie dodania trasy przez "+nazwaU+"')";
+				    operacje.execute(operacjeSQL);
+				 }
+				 catch(Exception e){
+					 
+				 }
 			DodanieTrasy(AdminFrame);
 		}});
 		
@@ -183,6 +272,16 @@ public class PanelAdmina {
 		{
 		public void actionPerformed(ActionEvent arg0)
 		{
+			 try{
+				 Connection conn = DriverManager.getConnection(url, user, ""); 
+				    Statement operacje = conn.createStatement();
+				    operacje.execute("USE projektzespolowy");
+				    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+0+"','"+"Wylogowanie sie "+nazwaU+"')";
+				    operacje.execute(operacjeSQL);
+				 }
+				 catch(Exception e){
+					 
+				 }
 			new Logowanie();
 			AdminFrame.dispose();
 		}});
@@ -191,6 +290,16 @@ public class PanelAdmina {
 		{
 		public void actionPerformed(ActionEvent arg0)
 		{
+			 try{
+				 Connection conn = DriverManager.getConnection(url, user, ""); 
+				    Statement operacje = conn.createStatement();
+				    operacje.execute("USE projektzespolowy");
+				    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+16+"','"+"Otworzenie edycji trasy przez "+nazwaU+"')";
+				    operacje.execute(operacjeSQL);
+				 }
+				 catch(Exception e){
+					 
+				 }
 			EdytujTrase();
 		}});
 		
@@ -198,17 +307,46 @@ public class PanelAdmina {
 		{
 		public void actionPerformed(ActionEvent arg0)
 		{
-			new WyszukajPolaczenie();
+			 try{
+				 Connection conn = DriverManager.getConnection(url, user, ""); 
+				    Statement operacje = conn.createStatement();
+				    operacje.execute("USE projektzespolowy");
+				    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+17+"','"+"Otworzenie wyszukiwania trasy przez "+nazwaU+"')";
+				    operacje.execute(operacjeSQL);
+				 }
+				 catch(Exception e){
+					 
+				 }
+			new WyszukajPolaczenie(nazwaU);
+		}});
+		
+		
+		usersB.addActionListener(new ActionListener()
+		{
+		public void actionPerformed(ActionEvent arg0)
+		{
+			 try{
+				 Connection conn = DriverManager.getConnection(url, user, ""); 
+				    Statement operacje = conn.createStatement();
+				    operacje.execute("USE projektzespolowy");
+				    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+18+"','"+"Otworzenie zarzadzania uzytkownikami przez "+nazwaU+"')";
+				    operacje.execute(operacjeSQL);
+				 }
+				 catch(Exception e){
+					 
+				 }
+			new ZarzadzajUzytkownikami();
 		}});
 	}
 //FUNKCJONALNOSC NR 3 - dodawanie trasy 
 	void DodanieTrasy(JFrame AdminFrame){
-		new DodajTrase();		
+		new DodajTrase(nazwaU);		
 	}
 //Koniec funkcjonalnosci nr 3
 //-------------------------------------------------------------
 //FUNKCJONALNOSC NR 4 - edycja trasy
 	void EdytujTrase(){
+		new ZarzadzanieTrasami();
 		System.out.print("edytuj trase");
 	}
 //Koniec funkcjonalnosci nr 4	

@@ -1,8 +1,11 @@
 package app;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.Connection;
@@ -36,6 +39,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
@@ -47,7 +51,7 @@ public class DodajTrase {
     int lacznyDystans=0;
     long zerowyTime=60000*60L*23L;	
     SimpleDateFormat ft = new SimpleDateFormat ("HH:mm:ss");
-	DodajTrase(){
+	DodajTrase(String nazwaUzytkownika){
 		JFrame DodawanieTrasyFrame = new JFrame("Nowa trasa");
 		DodawanieTrasyFrame.setSize(500, 500);
 		DodawanieTrasyFrame.setLocationRelativeTo(null);
@@ -58,19 +62,9 @@ public class DodajTrase {
 		DodawanieTrasyFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		((JComponent) DodawanieTrasyFrame.getContentPane()).setBorder(new EmptyBorder(10, 10, 10, 10));
 		Font myFont = new Font("Serif", Font.BOLD | Font.BOLD, 12);
-
-		JLabel skadL = new JLabel("Miejsce rozpoczêcia trasy:");
-		skadL.setBounds(30, 10, 200, 25);
-		skadL.setFont(myFont);
 		JLabel cenaL = new JLabel("Cena:");
 		cenaL.setBounds(135, 45, 100, 25);
 		cenaL.setFont(myFont);
-		
-		JTextField skadText = new JTextField();
-		skadText.setBounds(170, 10, 150, 25);
-		skadText.setBorder(new RoundedCornerBorder());
-		skadText.setBackground(new Color(50,88,145));
-		skadText.setForeground(Color.white);
 		
 		JTextField cenaText = new JTextField();
 		cenaText.setBounds(170, 45, 80, 25);
@@ -99,7 +93,7 @@ public class DodajTrase {
 		czasRozpoczeciaGodz.setEditor(new JSpinner.DateEditor(czasRozpoczeciaGodz, "HH"));	
 		
 		JLabel godzinaInfo = new JLabel("Podaj godzinê");
-		godzinaInfo.setBounds(342, 30, 70, 25);
+		godzinaInfo.setBounds(342, 30, 97, 25);
 		SpinnerDateModel modelMins = new SpinnerDateModel();
 		modelMins.setCalendarField(Calendar.MINUTE);
 		czasRozpoczeciaMin.setModel(modelMins);
@@ -123,7 +117,14 @@ public class DodajTrase {
 			      },
 			      new Object[] { "Numer stacji","Nazwa stacji", "Czas przejazdu","Odleg³oœæ" });
 
-	      JTable table = new JTable(model);
+	      JTable table = new JTable(model){
+	    	
+	    		public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+	    			Component comp = super.prepareRenderer(renderer, row, column);
+	    			comp.setBackground(row % 2 == 0 ? Color.white : Color.LIGHT_GRAY);
+	    			return comp;
+	    		}
+	      };
 	      table.setShowGrid(false);
 	      for (int c = 0; c < table.getColumnCount(); c++)
 	      {
@@ -145,7 +146,7 @@ public class DodajTrase {
 		
 
 	    time.setTime(zerowyTime);
-	    System.out.println("zerowy" +ft.format(time));
+	 //   System.out.println("zerowy" +ft.format(time));
 		JLabel czasKoniec = new JLabel();
 		czasKoniec.setText(ft.format(time));
 		czasKoniec.setBounds(200, 450, 100, 150);
@@ -162,8 +163,6 @@ public class DodajTrase {
 		panelInformacje.setLayout(null);
 		
 		panelInformacje.add(cenaText);
-		panelInformacje.add(skadL);
-		panelInformacje.add(skadText);
 		panelInformacje.add(cenaL);
 		panelInformacje.add(pln);
 		panelInformacje.add(DodawanieTrasyFrame.getContentPane().add(scroll));
@@ -241,7 +240,7 @@ public class DodajTrase {
 		{
 		public void actionPerformed(ActionEvent arg0)
 		{
-		/*	 String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy" + 
+			 String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy" + 
 					 "?useUnicode=true&characterEncoding=utf8";
 		      String user = "root";
 		      String password = "njymjmbnnmbn";
@@ -249,15 +248,15 @@ public class DodajTrase {
 				  password="";
 				  for (int i = 0; i < jkjasd.length; i++) {
 			    	  password= password+jkjasd[i];
-			      }		*/
-			 String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
+			      }		
+			/* String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
 		      String user = "projektzespolowy";
 		      String password = "njymjmbnnmbn";
 		      char[] jkjasd = { 'p', 'r', 'o', 'j', 'e','k','t'};
 				  password="";
 				  for (int i = 0; i < jkjasd.length; i++) {
 			    	  password= password+jkjasd[i];
-			      }	
+			      }	*/
 			try{	
 				JSpinner.DateEditor de = new JSpinner.DateEditor(czasRozpoczeciaGodz, "HH");
 				JSpinner.DateEditor de2 = new JSpinner.DateEditor(czasRozpoczeciaMin, "mm");
@@ -269,34 +268,38 @@ public class DodajTrase {
 						+":"+de2.getFormat().format(czasRozpoczeciaMin.getValue());
 				CzasPoczatek+=":00";
 			
+		
+				
+				
 			
+		
 				
 		
-			Connection con = DriverManager.getConnection(url, user, password); 
+			Connection con = DriverManager.getConnection(url, user, ""); 
 		    Statement loginST = con.createStatement();
 		    loginST.execute("USE projektzespolowy");
 		   // loginST.execute("SET NAMES 'UTF-8'");
 		    String updateTableSQL = " INSERT INTO routes"
-    				+ " (route_start,price,time_start,duration,distance,pn,wt,sr,czw,pt,sob,niedz,type)"
-    				+ " VALUES('"+skadText.getText()+"','"+cenaText.getText()+"',"
+    				+ " (price,time_start,duration,distance,pn,wt,sr,czw,pt,sob,niedz,type,owner)"
+    				+ " VALUES('"+cenaText.getText()+"',"
     				+"'"+CzasPoczatek+"','"+ft.format(zerowyTime + lacznyCzas*1000L*60L)+"','"+lacznyDystans+"',"
     				+ "'"+booleanToInt(pnCB.isSelected())+"','"+booleanToInt(wtCB.isSelected())+"','"+booleanToInt(srCB.isSelected())+"',"
     				+ "'"+booleanToInt(czwCB.isSelected())+"','"+booleanToInt(ptCB.isSelected())+"','"+booleanToInt(sobCB.isSelected())+"','"+booleanToInt(niedzCB.isSelected())+"',"
-    						+ "'"+typTransportuCombo.getSelectedItem().toString()+"')";
+    						+ "'"+typTransportuCombo.getSelectedItem().toString()+"', '"+nazwaUzytkownika+"')";
 		    		loginST.execute(updateTableSQL);
 
 		   ResultSet  jakieID = loginST.executeQuery("SELECT MAX(route_id) AS route_id FROM routes");
 
 		   if(jakieID.next()){
 			   lastid = jakieID.getInt("route_id");
-			   System.out.print(lastid);
+			 //  System.out.print(lastid);
 		   }
 		
 		  for(int i=0;i<table.getModel().getRowCount();i++){
 				  String updateTableSQL2 = " INSERT INTO routes_stops"
 			   				+ " (route_id,name,distance,stop_time,nr)"
 			   				+ " VALUES('"+lastid+"','"+table.getModel().getValueAt(i, 1)+"',"
-			   	+ "'"+Integer.parseInt((String) table.getModel().getValueAt(i, 3))+"','"+table.getModel().getValueAt(i, 2)+"'"
+			   	+ "'"+Integer.parseInt(table.getModel().getValueAt(i, 3).toString())+"','"+table.getModel().getValueAt(i, 2)+"'"
 			   			+ ",'"+table.getModel().getValueAt(i, 0)+"')";
 				 
 				  loginST.execute(updateTableSQL2); 
@@ -352,7 +355,7 @@ public class DodajTrase {
 		    	lacznyDystans+=odlegloscLiczba;
 		    	time.setTime(zerowyTime + czasLiczba*1000L*60L);
 		    	lacznyCzas+=czasLiczba;
-		    	System.out.println(ft.format(time));
+		    //	System.out.println(ft.format(time));
 		    	liczbaStacji++;
 		    	if(liczbaStacji==1){
 		    		model.addRow(new Object[]{liczbaStacji,nazwaPrzystanku.getText(),"00:00:00",0});
@@ -365,7 +368,7 @@ public class DodajTrase {
 		    	czasPrzejazdu.setText("");
 		    	
 		    	lacznyCzasPrzejazdu.setText(ft.format(zerowyTime + lacznyCzas*1000L*60L));
-		    	System.out.print(ft.format(time));
+		    //	System.out.print(ft.format(time));
 		    	czasKoniec.setText(""+new SimpleDateFormat("mm").format(czasRozpoczeciaGodz.getModel().getValue())+""+new SimpleDateFormat("HH").format(czasRozpoczeciaGodz.getModel().getValue()));
 		    	break;
 		    	}
@@ -388,6 +391,7 @@ public class DodajTrase {
 		            	
 		            }
 		            else{
+		            
 		            DodawanieTrasyFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		            }
 		           //ghgh
@@ -402,12 +406,69 @@ public class DodajTrase {
 		    });
 		
 		
+		  ImageIcon logo = null;
+		    try {
+		    	logo = new ImageIcon(getClass().getResource("/img/logom.png"));
+		    	
+		    } catch (Exception e) {
+		        System.err.println("load error: " + e.getMessage());
+		    }
+			JLabel LogoL = new JLabel(logo);
+			LogoL.setBounds(46, 30, 50, 50);
+			panelInformacje.add(LogoL);
 		
-		
+			
+			cenaText.addKeyListener(new KeyAdapter() {
+		        public void keyReleased(KeyEvent e) {
+		        	char ch;
+		        	int liczbaKropek=0;
+		        	cenaText.setText(cenaText.getText().replace(',', '.'));	
+		        	
+		        	
+					 for(int i=0;i<cenaText.getText().length();i++)
+				        {
+				            ch = cenaText.getText().charAt(i);
+				            int asciivalue = (int)ch;
+				           
+				            if(asciivalue == 46){
+				            	liczbaKropek++;
+				            	if(cenaText.getText().indexOf(".")+3<cenaText.getText().length()){
+					        		cenaText.setText(cenaText.getText().substring(0, (cenaText.getText().indexOf(".")+3)));
+					        		}
+				            	//System.out.println(liczbaKropek);
+				            }
+				            if(liczbaKropek==1 && cenaText.getText().length()==1){
+				            	cenaText.setText("0.");
+				            	break;
+				            }
+				            if(liczbaKropek>1){
+				            	cenaText.setText("");
+				            	break;
+				            }
+						    if (Character.isUpperCase(cenaText.getText().charAt(i))) cenaText.setText("");
+						    if (Character.isLowerCase(cenaText.getText().charAt(i))) cenaText.setText("");
+				            
+				        }
+		        
+		      
+		        	/*if(login.getText().length()>25){
+		        		login.setText(login.getText().substring(0, 25));
+		 		}*/
+		        }
 
-		
+		        public void keyTyped(KeyEvent e) {
+		            // TODO: Do something for the keyTyped event
+		        }
+
+		        public void keyPressed(KeyEvent e) {
+		            // TODO: Do something for the keyPressed event
+		        }
+		    });	
 	}
+	
 	 public static int booleanToInt(boolean value) {
 			return value ? 1 : 0;
 		    }
+	 
+	 
 }

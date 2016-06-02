@@ -7,6 +7,8 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -14,6 +16,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -103,6 +109,39 @@ public class Logowanie {
 	LogowanieFrame.setVisible(true);
 	
 	//FUNKCJONALNOSC NR 1 - LOGOWANIE
+	
+	passwordField.addKeyListener(new KeyAdapter() {
+        public void keyReleased(KeyEvent e) {
+        	if(passwordField.getText().length()>25){
+        		passwordField.setText(passwordField.getText().substring(0, 25));
+ 		}
+        }
+
+        public void keyTyped(KeyEvent e) {
+            // TODO: Do something for the keyTyped event
+        }
+
+        public void keyPressed(KeyEvent e) {
+            // TODO: Do something for the keyPressed event
+        }
+    });
+	
+	login.addKeyListener(new KeyAdapter() {
+        public void keyReleased(KeyEvent e) {
+        	if(login.getText().length()>25){
+        		login.setText(login.getText().substring(0, 25));
+ 		}
+        }
+
+        public void keyTyped(KeyEvent e) {
+            // TODO: Do something for the keyTyped event
+        }
+
+        public void keyPressed(KeyEvent e) {
+            // TODO: Do something for the keyPressed event
+        }
+    });
+	
 	zalogujB.addActionListener(new ActionListener()
 	{
 
@@ -120,7 +159,7 @@ public class Logowanie {
 		 m.update(input.getBytes(),0,input.length());
 
 		 
-	/*	 String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy" + 
+		 String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy" + 
 				 "?useUnicode=true&characterEncoding=utf8";
 	      String user = "root";
 	      String password = "njymjmbnnmbn";
@@ -128,17 +167,17 @@ public class Logowanie {
 			  password="";
 			  for (int i = 0; i < jkjasd.length; i++) {
 		    	  password= password+jkjasd[i];
-		      }	*/
-		 String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
+		      }	
+		/* String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
 	      String user = "projektzespolowy";
 	      String password = "njymjmbnnmbn";
 	      char[] jkjasd = { 'p', 'r', 'o', 'j', 'e','k','t'};
 			  password="";
 			  for (int i = 0; i < jkjasd.length; i++) {
 		    	  password= password+jkjasd[i];
-		      }	
+		      }	*/
 		try{				
-		Connection con = DriverManager.getConnection(url, user, password);
+		Connection con = DriverManager.getConnection(url, user, "");
 		 
 		 
 	    Statement loginST = con.createStatement();
@@ -157,11 +196,211 @@ public class Logowanie {
 		    		if(daneLogowanie.getInt("access")==777){ //jesli w bazie uzytkownik ma 777 acces zaladuj admina
 		    			if(daneLogowanie.getBoolean("banned")==false){
 		    			System.out.println("admin");
-		    			new PanelAdmina(login.getText(),LogowanieFrame.getLocation());
-		    			LogowanieFrame.dispose();
+		    			//--------------------
+		    			
+		    			Connection con2 = DriverManager.getConnection(url, user, "");
+		    			 
+		    			 
+		    		    Statement loginST2 = con.createStatement();
+		    		  JPasswordField noweHaslo = new JPasswordField();
+		    		  JPasswordField noweHaslo2 = new JPasswordField();
+		    		    loginST2.execute("USE projektzespolowy");
+		    		    ResultSet daneLogowanie2 = loginST2.executeQuery("SELECT zmianahasla FROM users WHERE name = '"+login.getText()+"'");
+		    				while(daneLogowanie2.next()){
+		    					
+		    					Date today=new Date();
+		    					
+		    					 Date myDate=new Date(today.getYear(),today.getMonth()-1,today.getDay());
+		    					 
+		    					if(daneLogowanie2.getDate("zmianaHasla").before(myDate)){
+		    						System.out.print("stare haslo");
+		    						 JPanel myPanel = new JPanel();
+			    				      myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.PAGE_AXIS));
+			    				      myPanel.add(new JLabel("Podaj nowe has³o:"));
+			    				      myPanel.add(noweHaslo);
+			    				      myPanel.add(Box.createVerticalStrut(5));
+			    				      myPanel.add(new JLabel("Powtorz nowe haslo:"));
+			    				      myPanel.add(noweHaslo2);
+		    						
+			    				      int result = JOptionPane.showConfirmDialog(LogowanieFrame, myPanel, 
+			    				               "Dodanie przystanku", JOptionPane.OK_CANCEL_OPTION);
+			    				    while (result == JOptionPane.OK_OPTION) {
+			    				    	//---------------------------------------------------------------------------------------------------------------------------
+			    				 
+			    					if(noweHaslo.getText().equals(noweHaslo2.getText())){
+			    						int count=0;
+			    						int uppercase=0;
+			    						char ch;
+			    						int liczbaZnakow;
+			    						liczbaZnakow=noweHaslo.getText().length();
+			    						if(liczbaZnakow<=20 && liczbaZnakow>=7){
+			    							for (int i = 0, len = noweHaslo.getText().length(); i < len; i++) {
+			    							    if (Character.isDigit(noweHaslo.getText().charAt(i))) {
+			    							        count++;
+			    							    }
+			    							}
+			    							System.out.print(count);
+			    							if(count>=1){
+			    								 for(int i=0;i<noweHaslo.getText().length();i++)
+			    							        {
+			    							            ch = noweHaslo.getText().charAt(i);
+			    							            int asciivalue = (int)ch;
+			    							            if(asciivalue >=65 && asciivalue <=90){
+			    							                uppercase++;
+			    							            }
+			    							        }
+			    								 if(uppercase>=1){
+			    									 
+			    									 String input2 = noweHaslo.getText();
+			    									 MessageDigest m2=null;
+			    									try {
+			    										m2 = MessageDigest.getInstance("MD5");
+			    									} catch (NoSuchAlgorithmException e) {
+			    										e.printStackTrace();
+			    									}
+			    									 m2.update(input2.getBytes(),0,input2.length());
+			    									// System.out.println("MD51 "+new BigInteger(1,m.digest()).toString(16));
+
+			    									String url2 = "jdbc:mysql://127.0.0.1:3306/projektzespolowy";
+			    								      String user2 = "root";
+			    								      String password2 = "njymjmbnnmbn";
+			    								      char[] jkjasd2 = { 'a', 'd', 'm', 'i', 'n'};
+			    										  password2="";
+			    										  for (int i = 0; i < jkjasd2.length; i++) {
+			    									    	  password2= password2+jkjasd2[i];
+			    									      }		
+			    									/* String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
+			    								      String user = "projektzespolowy";
+			    								      String password = "njymjmbnnmbn";
+			    								      char[] jkjasd = { 'p', 'r', 'o', 'j', 'e','k','t'};
+			    										  password="";
+			    										  for (int i = 0; i < jkjasd.length; i++) {
+			    									    	  password= password+jkjasd[i];
+			    									      }	*/
+			    									try{				
+			    									Connection con3 = DriverManager.getConnection(url2, user2, "");
+			    								    Statement loginST3 = con.createStatement();
+
+			    								    loginST3.execute("USE projektzespolowy");
+			    								    
+			    								    		
+			    								    //-------------------
+			    									
+			    					    			SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");					
+			    								    Connection con4 = DriverManager.getConnection(url2, user2, "");
+						    						Statement loginST4 = con.createStatement();		
+			    							     	 String updateTableSQL = "UPDATE users SET password='"+new BigInteger(1,m2.digest()).toString(16)+"',zmianahasla='"+ft.format(today)+"' WHERE name='"+login.getText()+"'	";
+			    							     	loginST4.execute(updateTableSQL);
+			    							     	//new PanelAdmina(login.getText(),LogowanieFrame.getLocation());
+			    		    		    			//LogowanieFrame.dispose();
+			    							     
+			    							     	JOptionPane.showMessageDialog(LogowanieFrame, "Zmiana hasla pomyslna! Mozesz sie zalogowac nowym haslem!.");
+			    								
+			    							     	Connection conn = DriverManager.getConnection(url, user, ""); 
+			    								    Statement operacje = conn.createStatement();
+			    								    operacje.execute("USE projektzespolowy");
+			    								    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+1+"','"+"Pomyslna zmiana hasla dla "+login.getText()+"')";
+			    								    operacje.execute(operacjeSQL);
+			    											
+			    							     	result=1;
+			    							     	//------------------------
+			    								  
+			    								    	
+			    								    	
+			    								    
+			    								    loginST3.close();
+			    									}
+			    									catch(Exception e){
+			    										System.out.println(e);
+			    									}
+			    							
+			    										
+			    										
+			    									 
+			    									 
+			    									 
+			    								 }
+			    								 else{
+			    									 JOptionPane.showMessageDialog(LogowanieFrame, "Haslo musi posiadac minimum 1 wielka litere.");
+			    									 Connection conn = DriverManager.getConnection(url, user, ""); 
+				    								    Statement operacje = conn.createStatement();
+				    								    operacje.execute("USE projektzespolowy");
+				    								    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+2+"','"+"Niepomyslna zmiana hasla dla "+login.getText()+"')";
+				    								    operacje.execute(operacjeSQL);
+			    								 break;
+			    								 }
+			    							}
+			    							else{
+			    								JOptionPane.showMessageDialog(LogowanieFrame, "Haslo musi posiadac minimum 1 cyfry.");
+			    								 Connection conn = DriverManager.getConnection(url, user, ""); 
+			    								    Statement operacje = conn.createStatement();
+			    								    operacje.execute("USE projektzespolowy");
+			    								    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+3+"','"+"Niepomyslna zmiana hasla dla "+login.getText()+"')";
+			    								    operacje.execute(operacjeSQL);
+			    						break;
+			    							}
+			    						}
+			    						else{
+			    							JOptionPane.showMessageDialog(LogowanieFrame, "Haslo musi skladac sie z min. 8 znakow i max. z 25 znakow.");
+			    							 Connection conn = DriverManager.getConnection(url, user, ""); 
+		    								    Statement operacje = conn.createStatement();
+		    								    operacje.execute("USE projektzespolowy");
+		    								    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+4+"','"+"Niepomyslna zmiana hasla dla "+login.getText()+"')";
+		    								    operacje.execute(operacjeSQL);
+			    						break;
+			    						}
+			    						
+			    						}
+			    						else
+			    						{
+			    							JOptionPane.showMessageDialog(LogowanieFrame, "Wpisano rozne hasla!");
+			    							 Connection conn = DriverManager.getConnection(url, user, ""); 
+		    								    Statement operacje = conn.createStatement();
+		    								    operacje.execute("USE projektzespolowy");
+		    								    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+5+"','"+"Niepomyslna zmiana hasla dla "+login.getText()+"')";
+		    								    operacje.execute(operacjeSQL);
+			    						break;
+			    						}
+			    					
+			    				    	
+			    				    	
+			    				    	
+			    				    	
+			    				    	
+			    				    //-------------------------------------------------------------------------------------------------------------------------	
+			    				    	
+			    				    }
+		    						
+		    				}
+		    					else{
+		    						new PanelAdmina(login.getText(),LogowanieFrame.getLocation());
+		    		    			LogowanieFrame.dispose();
+		    		    			 Connection conn = DriverManager.getConnection(url, user, ""); 
+ 								    Statement operacje = conn.createStatement();
+ 								    operacje.execute("USE projektzespolowy");
+ 								    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+1+"','"+"Pomyslnie zalogowano "+login.getText()+"')";
+ 								    operacje.execute(operacjeSQL);
+		    					}
+		    				}
+		    				loginST2.close();
+		    			
+		    			
+		    			
+		    			
+		    			
+		    			
+		    			
+		    			
+		    			//-------------------
+		    			
 		    			}
 		    			else{
 		    				JOptionPane.showMessageDialog(LogowanieFrame, "Twoje konto jest zbanowane...");
+		    				 Connection conn = DriverManager.getConnection(url, user, ""); 
+							    Statement operacje = conn.createStatement();
+							    operacje.execute("USE projektzespolowy");
+							    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+6+"','"+"Proba zalogowania sie na konto zbanowane "+login.getText()+"')";
+							    operacje.execute(operacjeSQL);
 		    			}
 		    		}	
 		    		if(daneLogowanie.getInt("access")==1){//pobranieUprawnienU.getInt("nr")){
@@ -177,6 +416,11 @@ public class Logowanie {
 				}
 		    	else{
 		    		JOptionPane.showMessageDialog(LogowanieFrame, "B³êdna nazwa u¿ytkonika lub haslo.");
+   				 Connection conn = DriverManager.getConnection(url, user, ""); 
+					    Statement operacje = conn.createStatement();
+					    operacje.execute("USE projektzespolowy");
+					    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+7+"','"+"Bledne dane logowania dla uzytkownika "+login.getText()+"')";
+					    operacje.execute(operacjeSQL);
 		    	}	
 	    	} while (daneLogowanie.next());
 	    }
@@ -211,7 +455,7 @@ public class Logowanie {
 	}});
 	
 	login.setText("admin");
-	passwordField.setText("admin");
+	passwordField.setText("asdasd123Q");
 	}
 	public static void main(String[] args) {
 		new Logowanie();

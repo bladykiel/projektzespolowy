@@ -2,6 +2,7 @@ package app;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -27,10 +28,12 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -39,20 +42,23 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
+import javax.swing.plaf.basic.BasicSpinnerUI;
 
 import com.toedter.calendar.JCalendar;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 
 public class WyszukajPolaczenie {
     int iloscPaneli=0;
     int wysokosc=5;
     int idSprawdzane=0;
-	WyszukajPolaczenie(){
+	WyszukajPolaczenie(String nazwaU){
 		JFrame WyszukajPolaczenieFrame = new JFrame("Nowa trasa");
-		WyszukajPolaczenieFrame.setSize(500, 650);
+		WyszukajPolaczenieFrame.setSize(500, 680);
 		WyszukajPolaczenieFrame.setLocationRelativeTo(null);
 		WyszukajPolaczenieFrame.setVisible(true);
 	//	WyszukajPolaczenieFrame.setLayout(null);
+		WyszukajPolaczenieFrame.setResizable(false);
 		WyszukajPolaczenieFrame.getContentPane().setBackground(new Color(50,88,145));
 		WyszukajPolaczenieFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		((JComponent) WyszukajPolaczenieFrame.getContentPane()).setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -73,51 +79,74 @@ public class WyszukajPolaczenie {
 		
 		
 		JCalendar kalendarz = new JCalendar();
-		kalendarz.setBounds(222, 11, 200, 170);
+		kalendarz.getDayChooser().setWeekOfYearVisible(false);
+		kalendarz.setBounds(162, 11, 300, 250);
+		kalendarz.setDecorationBackgroundColor(new Color(50,88,145));
+		kalendarz.setWeekdayForeground(Color.white);
 
+		
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setPreferredSize(new Dimension(370,10));
 	    JScrollPane scroll = new JScrollPane(panel);
-	    scroll.setBounds(25, 250, 400, 250);
+	    scroll.setBounds(25, 293, 400, 250);
 
 	    scroll.setVerticalScrollBarPolicy(
 	    		   JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
-	    JButton button = new JButton("Wyszukaj");
+	  
+	    ImageIcon logo = null;
+        try {
+        	logo = new ImageIcon(getClass().getResource("/img/logom.png"));
+        	
+        } catch (Exception e) {
+            System.err.println("load error: " + e.getMessage());
+        }
+  
+	    
+    
+	    JButton button = new JButton("Wyszukaj",logo);
 	    button.setFocusPainted(false);
 	    button.setBorder(new RoundedCornerBorder());
-	    button.setBounds(322, 196, 100, 25);
+	    button.setBounds(326, 564, 136, 55);
 	    button.setBackground(new Color(50,88,145));
 	    button.setForeground(new Color(220,220,220));
 
-	        JTextField wyszukajSkad = new JTextField();
-	        wyszukajSkad.setBounds(49, 36, 120, 25);
-	        wyszukajSkad.setBorder(new RoundedCornerBorder());
+	    //   JTextField wyszukajSkad = new JTextField();
+	    	JComboBox wyszukajSkad = new JComboBox();
+	    /*	wyszukajSkad.addItem("Warszawa");
+	    	wyszukajSkad.addItem("Koszalin");
+	    	wyszukajSkad.addItem("Ko³obrzeg");*/
+	        wyszukajSkad.setBounds(10, 29, 135, 45);
+	      //  wyszukajSkad.setBorder(new RoundedCornerBorder());
 	        wyszukajSkad.setBackground(new Color(50,88,145));
 		    wyszukajSkad.setForeground(new Color(220,220,220));
 	        
-	        JTextField wyszukajDokad = new JTextField();
-	        wyszukajDokad.setBounds(49, 92, 120, 25);
-	        wyszukajDokad.setBorder(new RoundedCornerBorder());
+	        //JTextField wyszukajDokad = new JTextField();
+	    	JComboBox wyszukajDokad = new JComboBox();
+	    /*	wyszukajDokad.addItem("Warszawa");
+	    	wyszukajDokad.addItem("Koszalin");
+	    	wyszukajDokad.addItem("Ko³obrzeg");*/
+	        wyszukajDokad.setBounds(10, 103, 135, 53);
+	    //    wyszukajDokad.setBorder(new RoundedCornerBorder());
 	        wyszukajDokad.setBackground(new Color(50,88,145));
 	        wyszukajDokad.setForeground(new Color(220,220,220));
 	        
 	        Font myFont = new Font("Serif", Font.BOLD | Font.BOLD, 10);
 	        JLabel skadInfoL = new JLabel("Przystanek pocz¹tkowy");
-	        skadInfoL.setBounds(wyszukajSkad.getX()+15, wyszukajSkad.getY()-20, 100, 25);
+	        skadInfoL.setBounds(10, 11, 100, 25);
 	        skadInfoL.setFont(myFont);
 	        
 	        
 	        JLabel dokadInfoL = new JLabel("Przystanek koñcowy");
-	        dokadInfoL.setBounds(wyszukajDokad.getX()+15, wyszukajDokad.getY()-20, 100, 25);
+	        dokadInfoL.setBounds(10, 85, 100, 25);
 	        dokadInfoL.setFont(myFont);
 	        
 	        
 	        
 	        
 			JSpinner czasRozpoczeciaMin = new JSpinner();
-			czasRozpoczeciaMin.setBounds(119, 130, 45, 35);
+			czasRozpoczeciaMin.setBounds(95, 186, 57, 45);
 			czasRozpoczeciaMin.setFont(new Font("Serif", Font.BOLD | Font.BOLD, 25));
 			
 			SpinnerDateModel modelGodz = new SpinnerDateModel();
@@ -126,7 +155,8 @@ public class WyszukajPolaczenie {
 			
 			
 			JSpinner czasRozpoczeciaGodz = new JSpinner();
-			czasRozpoczeciaGodz.setBounds(64, 130, 45, 35);
+			czasRozpoczeciaGodz.setBounds(25, 186, 60, 45);
+			
 			czasRozpoczeciaGodz.setFont(new Font("Serif", Font.BOLD | Font.BOLD, 25));
 			czasRozpoczeciaGodz.setModel(modelGodz);
 			czasRozpoczeciaGodz.setEditor(new JSpinner.DateEditor(czasRozpoczeciaGodz, "HH"));	
@@ -147,8 +177,8 @@ public class WyszukajPolaczenie {
 	        
 	        
 	        
-	        wyszukajSkad.setText("Ko³obrzeg");
-	        wyszukajDokad.setText("Szczecinek");
+	       // wyszukajSkad.setText("Ko³obrzeg");
+	      //  wyszukajDokad.setText("Warszawa");
 	        Map<String, JLabel> skadL = new HashMap<>();
 	        Map<String, JLabel> dokadL = new HashMap<>();
 	        Map<String, JLabel> godzinaOdjazduL = new HashMap<>();
@@ -175,36 +205,36 @@ public class WyszukajPolaczenie {
 	        
 	        JLabel infoSkadL1 = new JLabel("Sk\u0105d\r\n");
 	        infoSkadL1.setFont(new Font("Tahoma", Font.PLAIN, 9));
-	        infoSkadL1.setBounds(62, 225, 32, 14);
+	        infoSkadL1.setBounds(63, 259, 32, 14);
 	        panelInformacje.add(infoSkadL1);
 	        
 	        JLabel infoGodzPrzyjazdL = new JLabel("Godzina przyjazdu");
 	        infoGodzPrzyjazdL.setFont(new Font("Tahoma", Font.PLAIN, 9));
-	        infoGodzPrzyjazdL.setBounds(124, 225, 104, 14);
+	        infoGodzPrzyjazdL.setBounds(125, 259, 104, 14);
 	        panelInformacje.add(infoGodzPrzyjazdL);
 	        
 	        JLabel infoDokadL = new JLabel("Dok\u0105d");
 	        infoDokadL.setFont(new Font("Tahoma", Font.PLAIN, 9));
-	        infoDokadL.setBounds(60, 234, 46, 14);
+	        infoDokadL.setBounds(61, 268, 46, 14);
 	        panelInformacje.add(infoDokadL);
 	        
 	        JLabel infoGodzOdjL = new JLabel("Godzina odjazdu");
 	        infoGodzOdjL.setFont(new Font("Tahoma", Font.PLAIN, 9));
-	        infoGodzOdjL.setBounds(126, 234, 86, 14);
+	        infoGodzOdjL.setBounds(127, 268, 86, 14);
 	        panelInformacje.add(infoGodzOdjL);
 	        
 	        JLabel infoCzasJazdyL = new JLabel("Czas jazdy");
 	        infoCzasJazdyL.setFont(new Font("Tahoma", Font.PLAIN, 9));
-	        infoCzasJazdyL.setBounds(235, 234, 46, 14);
+	        infoCzasJazdyL.setBounds(239, 268, 46, 14);
 	        panelInformacje.add(infoCzasJazdyL);
 	        
 	        JLabel infoTypPojazduL = new JLabel("Typ pojazdu");
 	        infoTypPojazduL.setFont(new Font("Tahoma", Font.PLAIN, 9));
-	        infoTypPojazduL.setBounds(331, 234, 65, 14);
+	        infoTypPojazduL.setBounds(335, 268, 65, 14);
 	        panelInformacje.add(infoTypPojazduL);
 	        
 	        JPanel srodekLokomocjiPanel = new JPanel();
-	        srodekLokomocjiPanel.setBounds(22, 518, 287, 56);
+	        srodekLokomocjiPanel.setBounds(25, 554, 287, 56);
 	        panelInformacje.add(srodekLokomocjiPanel);
 		    srodekLokomocjiPanel.setBorder(BorderFactory.createTitledBorder("Œrodek lokomocji"));
 
@@ -227,6 +257,11 @@ public class WyszukajPolaczenie {
 	        samolotCB.setSelected(true);
 	        samolotCB.setBounds(200, 197, 65, 23);
 	        srodekLokomocjiPanel.add(samolotCB);
+	        
+	        JLabel lblGodzinaOdjazdu = new JLabel("Godzina odjazdu");
+	        lblGodzinaOdjazdu.setFont(myFont);
+	        lblGodzinaOdjazdu.setBounds(25, 170, 101, 14);
+	        panelInformacje.add(lblGodzinaOdjazdu);
 		    WyszukajPolaczenieFrame.setVisible(true);
 
 	
@@ -318,7 +353,7 @@ public class WyszukajPolaczenie {
 			  /*   DateFormat dateFormat3 = new SimpleDateFormat("hh:mm:ss");
 			    Date datep3 = dateFormat3.format(godzina);*/
 			     
-			/*	 String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy" + 
+				 String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy" + 
 						 "?useUnicode=true&characterEncoding=utf8";;
 			      String user = "root";
 			      String password = "njymjmbnnmbn";
@@ -326,20 +361,20 @@ public class WyszukajPolaczenie {
 					  password="";
 					  for (int i = 0; i < jkjasd.length; i++) {
 				    	  password= password+jkjasd[i];
-				      }	*/
-				 String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
+				      }	
+			/*	 String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
 			      String user = "projektzespolowy";
 			      String password = "njymjmbnnmbn";
 			      char[] jkjasd = { 'p', 'r', 'o', 'j', 'e','k','t'};
 					  password="";
 					  for (int i = 0; i < jkjasd.length; i++) {
 				    	  password= password+jkjasd[i];
-				      }	
+				      }	*/
 				try{				
-				Connection con = DriverManager.getConnection(url, user, password);
-				Connection con2 = DriverManager.getConnection(url, user, password);
-				Connection con3 = DriverManager.getConnection(url, user, password);
-				Connection con4 = DriverManager.getConnection(url, user, password);
+				Connection con = DriverManager.getConnection(url, user, "");
+				Connection con2 = DriverManager.getConnection(url, user, "");
+				Connection con3 = DriverManager.getConnection(url, user, "");
+				Connection con4 = DriverManager.getConnection(url, user, "");
 				
 
 					  
@@ -349,14 +384,16 @@ public class WyszukajPolaczenie {
 
 			    poczatekTrasy.execute("USE projektzespolowy");
 
-			    ResultSet poczatekTrasySQL = poczatekTrasy.executeQuery("SELECT * FROM routes_stops WHERE name = '"+wyszukajSkad.getText()+"'");
-			   while (poczatekTrasySQL.next()){
+			 //   ResultSet poczatekTrasySQL = poczatekTrasy.executeQuery("SELECT * FROM routes_stops WHERE name = '"+wyszukajSkad.getText()+"'");
+			    ResultSet poczatekTrasySQL = poczatekTrasy.executeQuery("SELECT * FROM routes_stops WHERE name = '"+wyszukajSkad.getSelectedItem().toString()+"'");
+				
+			    while (poczatekTrasySQL.next()){
 			    idSzczegoly.put("id"+iloscPaneli,poczatekTrasySQL.getInt("route_id"));
 			    
 				    Statement loginST = con.createStatement();
 				    loginST.execute("USE projektzespolowy");
 			    ResultSet wyszukajSkadSQL = loginST.executeQuery("SELECT * FROM routes WHERE route_id = '"+poczatekTrasySQL.getInt("route_id")+"'"
-			    		+ "AND pn>='"+pn+"' AND wt>='"+wt+"'AND sr>='"+sr+"' AND czw>='"+czw+"'AND pt>='"+pt+"'AND sob>='"+sob+"'AND niedz>='"+niedz+"'AND time_start>='"+godzina+"' AND (type='"+pociag+"' OR type='"+autobus+"' OR type='"+bus+"'OR type='"+samolot+"')");
+			    		+ "AND pn>='"+pn+"' AND wt>='"+wt+"'AND sr>='"+sr+"' AND czw>='"+czw+"'AND pt>='"+pt+"'AND sob>='"+sob+"'AND niedz>='"+niedz+"'AND time_start>='"+godzina+"' AND (type='"+pociag+"' OR type='"+autobus+"' OR type='"+bus+"'OR type='"+samolot+"') AND enable=1");
 			
 			
 
@@ -367,8 +404,10 @@ public class WyszukajPolaczenie {
 					   idSprawdzane=poczatekTrasySQL.getInt("route_id");
 					   Statement sprawdzeniePrzystankow = con2.createStatement();
 					   sprawdzeniePrzystankow.execute("USE projektzespolowy");
-					    ResultSet przystanki = sprawdzeniePrzystankow.executeQuery("SELECT * FROM routes_stops WHERE name = '"+wyszukajDokad.getText()+"'"
-					    		+ " and route_id='"+idSprawdzane+"'");
+					   // ResultSet przystanki = sprawdzeniePrzystankow.executeQuery("SELECT * FROM routes_stops WHERE name = '"+wyszukajDokad.getText()+"'"
+					   ResultSet przystanki = sprawdzeniePrzystankow.executeQuery("SELECT * FROM routes_stops WHERE name = '"+wyszukajDokad.getSelectedItem().toString()+"'"
+						    	
+					   + " and route_id='"+idSprawdzane+"'");
 						   while (przystanki.next()){
 							    nr2Szczegoly.put("nr"+iloscPaneli,przystanki.getInt("nr"));
 							    danePanel.put("panel"+iloscPaneli,new JPanel());
@@ -492,7 +531,7 @@ public class WyszukajPolaczenie {
 								typL.get("typL"+iloscPaneli).setForeground(Color.white);
 								danePanel.get("panel"+iloscPaneli).add(typL.get("typL"+iloscPaneli));
 							   
-								panel.setPreferredSize(new Dimension(panel.getPreferredSize().width,panel.getPreferredSize().height+55));
+								panel.setPreferredSize(new Dimension(panel.getPreferredSize().width,panel.getPreferredSize().height+60));
 								panel.add(danePanel.get("panel"+iloscPaneli));
 								
 								
@@ -542,7 +581,7 @@ public class WyszukajPolaczenie {
 					@Override
 					public void mousePressed(MouseEvent e) {
 						// TODO Auto-generated method stub
-						new SzczegolyTrasy(idSzczegoly.get("id"+b),nr1Szczegoly.get("nr"+b),nr2Szczegoly.get("nr"+b));
+						new SzczegolyTrasy(idSzczegoly.get("id"+b),nr1Szczegoly.get("nr"+b),nr2Szczegoly.get("nr"+b),nazwaU,kalendarz.getDate());
 
 					}
 					
@@ -567,9 +606,45 @@ public class WyszukajPolaczenie {
 				}
 				
 			}});
-
-
-	        
-}
+	        List<String> przystanki = new ArrayList<String>();
+	        String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy" + 
+					 "?useUnicode=true&characterEncoding=utf8";;
+		      String user = "root";
+		      String password = "njymjmbnnmbn";
+		      char[] jkjasd = { 'a', 'd', 'm', 'i', 'n'};
+				  password="";
+				  for (int i = 0; i < jkjasd.length; i++) {
+			    	  password= password+jkjasd[i];
+			      }	
+		/*	 String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
+		      String user = "projektzespolowy";
+		      String password = "njymjmbnnmbn";
+		      char[] jkjasd = { 'p', 'r', 'o', 'j', 'e','k','t'};
+				  password="";
+				  for (int i = 0; i < jkjasd.length; i++) {
+			    	  password= password+jkjasd[i];
+			      }	*/
+			try{				
+			Connection con4 = DriverManager.getConnection(url, user, "");
 	
+		    Statement trasy = con4.createStatement();
+
+		    trasy.execute("USE projektzespolowy");
+
+		 //   ResultSet poczatekTrasySQL = poczatekTrasy.executeQuery("SELECT * FROM routes_stops WHERE name = '"+wyszukajSkad.getText()+"'");
+		    ResultSet trasySQL = trasy.executeQuery("SELECT * FROM routes_stops");
+			
+		    while (trasySQL.next()){
+		    	przystanki.add(trasySQL.getString("name"));
+		    	wyszukajDokad.addItem(trasySQL.getString("name"));
+		    	wyszukajSkad.addItem(trasySQL.getString("name"));
+		    }
+		    trasy.close();
+			}
+		    	catch(Exception e){
+		    		
+		    	
+		    }
+	       
+}
 }
