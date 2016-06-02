@@ -240,7 +240,7 @@ public class DodajTrase {
 		{
 		public void actionPerformed(ActionEvent arg0)
 		{
-			 String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy" + 
+		/*	 String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy" + 
 					 "?useUnicode=true&characterEncoding=utf8";
 		      String user = "root";
 		      String password = "njymjmbnnmbn";
@@ -248,15 +248,15 @@ public class DodajTrase {
 				  password="";
 				  for (int i = 0; i < jkjasd.length; i++) {
 			    	  password= password+jkjasd[i];
-			      }		
-			/* String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
+			      }	*/	
+			 String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
 		      String user = "projektzespolowy";
 		      String password = "njymjmbnnmbn";
 		      char[] jkjasd = { 'p', 'r', 'o', 'j', 'e','k','t'};
 				  password="";
 				  for (int i = 0; i < jkjasd.length; i++) {
 			    	  password= password+jkjasd[i];
-			      }	*/
+			      }	
 			try{	
 				JSpinner.DateEditor de = new JSpinner.DateEditor(czasRozpoczeciaGodz, "HH");
 				JSpinner.DateEditor de2 = new JSpinner.DateEditor(czasRozpoczeciaMin, "mm");
@@ -275,7 +275,7 @@ public class DodajTrase {
 		
 				
 		
-			Connection con = DriverManager.getConnection(url, user, ""); 
+			Connection con = DriverManager.getConnection(url, user, password); 
 		    Statement loginST = con.createStatement();
 		    loginST.execute("USE projektzespolowy");
 		   // loginST.execute("SET NAMES 'UTF-8'");

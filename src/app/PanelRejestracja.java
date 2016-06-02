@@ -86,22 +86,22 @@ public class PanelRejestracja {
 		@SuppressWarnings("deprecation")
 		public void actionPerformed(ActionEvent arg0)
 		{
-			String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy";
+		/*	String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy";
 		      String user = "root";
 		      String password = "njymjmbnnmbn";
 		      char[] jkjasd = { 'a', 'd', 'm', 'i', 'n'};
 				  password="";
 				  for (int i = 0; i < jkjasd.length; i++) {
 			    	  password= password+jkjasd[i];
-			      }		
-			/* String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
+			      }		*/
+			 String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
 		      String user = "projektzespolowy";
 		      String password = "njymjmbnnmbn";
 		      char[] jkjasd = { 'p', 'r', 'o', 'j', 'e','k','t'};
 				  password="";
 				  for (int i = 0; i < jkjasd.length; i++) {
 			    	  password= password+jkjasd[i];
-			      }	*/
+			      }	
 	if(haslo.getText().equals(haslo2.getText())){
 		int count=0;
 		int uppercase=0;
@@ -137,7 +137,7 @@ public class PanelRejestracja {
 
 					
 					try{				
-					Connection con = DriverManager.getConnection(url, user, "");
+					Connection con = DriverManager.getConnection(url, user, password);
 				    Statement loginST = con.createStatement();
 
 				    loginST.execute("USE projektzespolowy");
@@ -169,7 +169,7 @@ public class PanelRejestracja {
 			     	loginST.execute(updateTableSQL);
 			     	new Logowanie(RejestracjaFrame.getLocation());
 			     	RejestracjaFrame.dispose();
-	   				 Connection conn = DriverManager.getConnection(url, user, ""); 
+	   				 Connection conn = DriverManager.getConnection(url, user, password); 
 					    Statement operacje = conn.createStatement();
 					    operacje.execute("USE projektzespolowy");
 					    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+8+"','"+"Pomyslna rejestracja uzytkownika "+login.getText()+"')";
@@ -178,7 +178,7 @@ public class PanelRejestracja {
 				    	}
 				    		else{
 				    			JOptionPane.showMessageDialog(RejestracjaFrame, "Nazwa uzytkownika nie moze zawierac znakow specjalnych (np. ?,! itp).");
-				   				 Connection conn = DriverManager.getConnection(url, user, ""); 
+				   				 Connection conn = DriverManager.getConnection(url, user, password); 
 								    Statement operacje = conn.createStatement();
 								    operacje.execute("USE projektzespolowy");
 								    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+9+"','"+"Bledne nazwa uzytkownika "+login.getText()+"')";
@@ -187,7 +187,7 @@ public class PanelRejestracja {
 				    	}
 				    	else{
 				    		JOptionPane.showMessageDialog(RejestracjaFrame, "Nazwa uzytkownika musi skladac sie z min. 6 znakow i max. z 25 znakow.");
-			   				 Connection conn = DriverManager.getConnection(url, user, ""); 
+			   				 Connection conn = DriverManager.getConnection(url, user, password); 
 							    Statement operacje = conn.createStatement();
 							    operacje.execute("USE projektzespolowy");
 							    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+10+"','"+"Bledne dlugosc loginu "+login.getText()+"')";
@@ -209,7 +209,7 @@ public class PanelRejestracja {
 				 else{
 					 JOptionPane.showMessageDialog(RejestracjaFrame, "Haslo musi posiadac minimum 1 wielka litere.");
 					 try{
-					 Connection conn = DriverManager.getConnection(url, user, ""); 
+					 Connection conn = DriverManager.getConnection(url, user, password); 
 					    Statement operacje = conn.createStatement();
 					    operacje.execute("USE projektzespolowy");
 					    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+11+"','"+"Bledne haslo przy rejestracji "+login.getText()+"')";
@@ -225,7 +225,7 @@ public class PanelRejestracja {
 			else{
 				JOptionPane.showMessageDialog(RejestracjaFrame, "Haslo musi posiadac minimum 1 cyfry.");
 				 try{
-					 Connection conn = DriverManager.getConnection(url, user, ""); 
+					 Connection conn = DriverManager.getConnection(url, user, password); 
 					    Statement operacje = conn.createStatement();
 					    operacje.execute("USE projektzespolowy");
 					    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+12+"','"+"Bledne haslo przy rejestracji "+login.getText()+"')";
@@ -242,7 +242,7 @@ public class PanelRejestracja {
 		else{
 			JOptionPane.showMessageDialog(RejestracjaFrame, "Haslo musi skladac sie z min. 8 znakow i max. z 25 znakow.");
 			 try{
-				 Connection conn = DriverManager.getConnection(url, user, ""); 
+				 Connection conn = DriverManager.getConnection(url, user, password); 
 				    Statement operacje = conn.createStatement();
 				    operacje.execute("USE projektzespolowy");
 				    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+13+"','"+"Bledne haslo przy rejestracji "+login.getText()+"')";
@@ -260,7 +260,7 @@ public class PanelRejestracja {
 		{
 			JOptionPane.showMessageDialog(RejestracjaFrame, "Wpisano rozne hasla!");
 			 try{
-				 Connection conn = DriverManager.getConnection(url, user, ""); 
+				 Connection conn = DriverManager.getConnection(url, user, password); 
 				    Statement operacje = conn.createStatement();
 				    operacje.execute("USE projektzespolowy");
 				    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+14+"','"+"Bledne haslo przy rejestracji "+login.getText()+"')";

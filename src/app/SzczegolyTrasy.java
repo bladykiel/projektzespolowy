@@ -78,7 +78,7 @@ public class SzczegolyTrasy {
    
         panel.add(scroll);
         int nr = 0;
-		 String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy" + 
+	/*	 String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy" + 
 				 "?useUnicode=true&characterEncoding=utf8";;
 	      String user = "root";
 	      String password = "njymjmbnnmbn";
@@ -86,15 +86,15 @@ public class SzczegolyTrasy {
 			  password="";
 			  for (int i = 0; i < jkjasd.length; i++) {
 		    	  password= password+jkjasd[i];
-		      }	
-      /*   String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
+		      }	*/
+         String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
           String user = "projektzespolowy";
           String password = "njymjmbnnmbn";
           char[] jkjasd = { 'p', 'r', 'o', 'j', 'e','k','t'};
               password="";
               for (int i = 0; i < jkjasd.length; i++) {
                   password= password+jkjasd[i];
-              }   */
+              }   
      
 		
 			  
@@ -148,7 +148,7 @@ public class SzczegolyTrasy {
 		              kursujePanel.add(niedzCB);   
 		              panel.add(kursujePanel);
 		        try{               
-		               Connection con = DriverManager.getConnection(url, user, "");       
+		               Connection con = DriverManager.getConnection(url, user, password);       
 		               Statement szczegolyTrasy = con.createStatement();
 		               szczegolyTrasy.execute("USE projektzespolowy");
 		               ResultSet info = szczegolyTrasy.executeQuery("SELECT * FROM routes WHERE route_id = '"+idPolaczenia+"'");
@@ -180,7 +180,7 @@ public class SzczegolyTrasy {
 			  
 			  
 			  try{               
-       Connection con = DriverManager.getConnection(url, user, "");       
+       Connection con = DriverManager.getConnection(url, user, password);       
        Statement szczegolyTrasy = con.createStatement();
        szczegolyTrasy.execute("USE projektzespolowy");
        ResultSet info = szczegolyTrasy.executeQuery("SELECT * FROM routes_stops WHERE route_id = '"+idPolaczenia+"'");
@@ -201,7 +201,7 @@ public class SzczegolyTrasy {
 
    //new Platnosc(nazwaU,data,);
 
-new Platnosc(nazwaU,nazwa1,nazwa2,cena,data);
+//new Platnosc(nazwaU,nazwa1,nazwa2,cena,data);
 
            	}
            });

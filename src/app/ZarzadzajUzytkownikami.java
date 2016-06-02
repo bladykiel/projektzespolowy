@@ -123,16 +123,16 @@ public class ZarzadzajUzytkownikami {
 		nazwaU.clear();
 		banB.clear();
 		 
-	     /*  String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
+	       String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
 	         String user = "projektzespolowy";
 	         String password = "njymjmbnnmbn";
 	         char[] jkjasd = { 'p', 'r', 'o', 'j', 'e','k','t'};
 	             password="";
 	             for (int i = 0; i < jkjasd.length; i++) {
 	                 password= password+jkjasd[i];
-	             }*/
+	             }
 	             
-	             String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy" + 
+	            /* String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy" + 
 	    				 "?useUnicode=true&characterEncoding=utf8";;
 	    	      String user = "root";
 	    	      String password = "njymjmbnnmbn";
@@ -140,12 +140,12 @@ public class ZarzadzajUzytkownikami {
 	    			  password="";
 	    			  for (int i = 0; i < jkjasd.length; i++) {
 	    		    	  password= password+jkjasd[i];
-	    		      }	    
+	    		      }	   */ 
 	             
 	             
 	             
 	             try{               
-                   Connection con = DriverManager.getConnection(url, user, "");       
+                   Connection con = DriverManager.getConnection(url, user, password);       
                    Statement szczegolyUsers = con.createStatement();
                    szczegolyUsers.execute("USE projektzespolowy");
                    ResultSet info = szczegolyUsers.executeQuery("SELECT * FROM users");
@@ -177,7 +177,13 @@ public class ZarzadzajUzytkownikami {
               				banB.get("banB"+nrr).setText("Odbanuj");
               				System.out.print(nazwaU.get("nazwaU"+nrr).getText());
               			  try{   
-              				Connection con3 = DriverManager.getConnection(url, user, ""); 
+              				String password = "njymjmbnnmbn";
+              		      char[] jkjasd = { 'a', 'd', 'm', 'i', 'n'};
+              				  password="";
+              				  for (int i = 0; i < jkjasd.length; i++) {
+              			    	  password= password+jkjasd[i];
+              			      }	
+              				Connection con3 = DriverManager.getConnection(url, user, password); 
 						    Statement loginST = con3.createStatement();
 						    loginST.execute("USE projektzespolowy");
 						   String updateTableSQL = "UPDATE users SET banned='1' WHERE name='"+nazwaU.get("nazwaU"+nrr).getText()+"'";
@@ -190,7 +196,13 @@ public class ZarzadzajUzytkownikami {
               			 else{
               				banB.get("banB"+nrr).setText("Zbanuj");
               			  try{   
-                				Connection con3 = DriverManager.getConnection(url, user, ""); 
+              				String password = "njymjmbnnmbn";
+              		      char[] jkjasd = { 'a', 'd', 'm', 'i', 'n'};
+              				  password="";
+              				  for (int i = 0; i < jkjasd.length; i++) {
+              			    	  password= password+jkjasd[i];
+              			      }	
+                				Connection con3 = DriverManager.getConnection(url, user, password); 
   						    Statement loginST = con3.createStatement();
   						    loginST.execute("USE projektzespolowy");
   						   String updateTableSQL = "UPDATE users SET banned='0' WHERE name='"+nazwaU.get("nazwaU"+nrr).getText()+"'";

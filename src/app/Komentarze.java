@@ -98,21 +98,21 @@ public class Komentarze {
         JLabel dodajnowy = new JLabel("Dodaj komentarz...");
         dodajnowy.setBounds(35, 279, 168, 23);
         panel.add(dodajnowy);
-	      String user = "root";
+	/*      String user = "root";
 	      String password = "njymjmbnnmbn";
 	      char[] jkjasd = { 'a', 'd', 'm', 'i', 'n'};
 			  password="";
 			  for (int i = 0; i < jkjasd.length; i++) {
 		    	  password= password+jkjasd[i];
-		      }	
-	/*	 String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
+		      }	*/
+	//	 String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
 	      String user = "projektzespolowy";
 	      String password = "njymjmbnnmbn";
 	      char[] jkjasd = { 'p', 'r', 'o', 'j', 'e','k','t'};
 			  password="";
 			  for (int i = 0; i < jkjasd.length; i++) {
 		    	  password= password+jkjasd[i];
-		      }	*/
+		      }	
 	WczytajDane();
 		
 		  dodaj.addActionListener(new ActionListener()
@@ -120,7 +120,13 @@ public class Komentarze {
    		public void actionPerformed(ActionEvent arg0)
    		{
    			try{
-   			Connection con2 = DriverManager.getConnection(url, user, ""); 
+   				String password = "njymjmbnnmbn";
+  		      char[] jkjasd = { 'a', 'd', 'm', 'i', 'n'};
+  				  password="";
+  				  for (int i = 0; i < jkjasd.length; i++) {
+  			    	  password= password+jkjasd[i];
+  			      }	
+   			Connection con2 = DriverManager.getConnection(url, user, password); 
 		    Statement loginST = con2.createStatement();
 		    loginST.execute("USE projektzespolowy");
 		    String updateTableSQL = " INSERT INTO comments"
@@ -147,8 +153,9 @@ public class Komentarze {
 	public void WczytajDane(){
 		Wyzeruj();
 		try{	
-			 String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy" + 
-					 "?useUnicode=true&characterEncoding=utf8";
+			String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
+		//	String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy" + 
+		//			 "?useUnicode=true&characterEncoding=utf8";
 			  String user = "root";
 		      String password = "njymjmbnnmbn";
 		      char[] jkjasd = { 'a', 'd', 'm', 'i', 'n'};
@@ -156,7 +163,7 @@ public class Komentarze {
 				  for (int i = 0; i < jkjasd.length; i++) {
 			    	  password= password+jkjasd[i];
 			      }	
-			Connection con = DriverManager.getConnection(url, user, "");
+			Connection con = DriverManager.getConnection(url, user, password);
 		    Statement Koment = con.createStatement();
 		    Koment.execute("USE projektzespolowy");
 		    ResultSet Komentarz = Koment.executeQuery("SELECT * FROM comments WHERE Id_pol = '"+IDPolaczenia2+"'");
@@ -202,7 +209,14 @@ public class Komentarze {
 						else{
 						
 						try{
-							Connection con3 = DriverManager.getConnection(url, user, ""); 
+							String password = "njymjmbnnmbn";
+						      char[] jkjasd = { 'a', 'd', 'm', 'i', 'n'};
+								  password="";
+								  for (int k = 0; k < jkjasd.length; k++) {
+							    	  password= password+jkjasd[k];
+							      }	
+								  
+							Connection con3 = DriverManager.getConnection(url, user, password); 
 						    Statement loginST = con3.createStatement();
 						    loginST.execute("USE projektzespolowy");
 						   String updateTableSQL = "UPDATE comments SET Comment='"+text.get("text"+i).getText()+"' WHERE Id='"+Integer.parseInt(arg0.getActionCommand())+"'";
@@ -229,7 +243,13 @@ public class Komentarze {
 			{
 				int pomoc = iloscPaneli;
 				try{
-					Connection con3 = DriverManager.getConnection(url, user, ""); 
+					String password = "njymjmbnnmbn";
+				      char[] jkjasd = { 'a', 'd', 'm', 'i', 'n'};
+						  password="";
+						  for (int i = 0; i < jkjasd.length; i++) {
+					    	  password= password+jkjasd[i];
+					      }	
+					Connection con3 = DriverManager.getConnection(url, user, password); 
 				    Statement loginST = con3.createStatement();
 				    loginST.execute("USE projektzespolowy");
 				   String updateTableSQL = " DELETE FROM comments WHERE Id='"+Integer.parseInt(arg0.getActionCommand())+"'";

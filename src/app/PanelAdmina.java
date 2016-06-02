@@ -26,22 +26,22 @@ public class PanelAdmina {
 		nazwaU=nazwaUzytkownika;
 	}
 	PanelAdmina(String nazwaUzytkownika,Point punkt){
-		String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy";
+	/*	String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy";
 	      String user = "root";
 	      String password = "njymjmbnnmbn";
 	      char[] jkjasd = { 'a', 'd', 'm', 'i', 'n'};
 			  password="";
 			  for (int i = 0; i < jkjasd.length; i++) {
 		    	  password= password+jkjasd[i];
-		      }		
-		/* String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
+		      }		*/
+		 String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
 	      String user = "projektzespolowy";
 	      String password = "njymjmbnnmbn";
 	      char[] jkjasd = { 'p', 'r', 'o', 'j', 'e','k','t'};
 			  password="";
 			  for (int i = 0; i < jkjasd.length; i++) {
 		    	  password= password+jkjasd[i];
-		      }	*/
+		      }	
 		nazwaU=nazwaUzytkownika;
 		JFrame AdminFrame = new JFrame("Admin");
 		Color kolorTla = new Color(50,88,145);
@@ -239,7 +239,13 @@ public class PanelAdmina {
 		{
 			
 			 try{
-				 Connection conn = DriverManager.getConnection(url, user, ""); 
+				 String password = "njymjmbnnmbn";
+			      char[] jkjasd = { 'p', 'r', 'o', 'j', 'e','k','t'};
+					  password="";
+					  for (int i = 0; i < jkjasd.length; i++) {
+				    	  password= password+jkjasd[i];
+				      }	
+				 Connection conn = DriverManager.getConnection(url, user, password); 
 				    Statement operacje = conn.createStatement();
 				    operacje.execute("USE projektzespolowy");
 				    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+15+"','"+"Otworzenie dodania trasy przez "+nazwaU+"')";
@@ -256,7 +262,13 @@ public class PanelAdmina {
 		public void actionPerformed(ActionEvent arg0)
 		{
 			 try{
-				 Connection conn = DriverManager.getConnection(url, user, ""); 
+				 String password = "njymjmbnnmbn";
+			      char[] jkjasd = { 'p', 'r', 'o', 'j', 'e','k','t'};
+					  password="";
+					  for (int i = 0; i < jkjasd.length; i++) {
+				    	  password= password+jkjasd[i];
+				      }	
+				 Connection conn = DriverManager.getConnection(url, user, password); 
 				    Statement operacje = conn.createStatement();
 				    operacje.execute("USE projektzespolowy");
 				    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+15+"','"+"Otworzenie dodania trasy przez "+nazwaU+"')";
@@ -273,7 +285,13 @@ public class PanelAdmina {
 		public void actionPerformed(ActionEvent arg0)
 		{
 			 try{
-				 Connection conn = DriverManager.getConnection(url, user, ""); 
+				 String password = "njymjmbnnmbn";
+			      char[] jkjasd = { 'p', 'r', 'o', 'j', 'e','k','t'};
+					  password="";
+					  for (int i = 0; i < jkjasd.length; i++) {
+				    	  password= password+jkjasd[i];
+				      }	
+				 Connection conn = DriverManager.getConnection(url, user, password); 
 				    Statement operacje = conn.createStatement();
 				    operacje.execute("USE projektzespolowy");
 				    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+0+"','"+"Wylogowanie sie "+nazwaU+"')";
@@ -291,7 +309,13 @@ public class PanelAdmina {
 		public void actionPerformed(ActionEvent arg0)
 		{
 			 try{
-				 Connection conn = DriverManager.getConnection(url, user, ""); 
+				 String password = "njymjmbnnmbn";
+			      char[] jkjasd = { 'p', 'r', 'o', 'j', 'e','k','t'};
+					  password="";
+					  for (int i = 0; i < jkjasd.length; i++) {
+				    	  password= password+jkjasd[i];
+				      }	
+				 Connection conn = DriverManager.getConnection(url, user, password); 
 				    Statement operacje = conn.createStatement();
 				    operacje.execute("USE projektzespolowy");
 				    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+16+"','"+"Otworzenie edycji trasy przez "+nazwaU+"')";
@@ -308,7 +332,13 @@ public class PanelAdmina {
 		public void actionPerformed(ActionEvent arg0)
 		{
 			 try{
-				 Connection conn = DriverManager.getConnection(url, user, ""); 
+				 String password = "njymjmbnnmbn";
+			      char[] jkjasd = { 'p', 'r', 'o', 'j', 'e','k','t'};
+					  password="";
+					  for (int i = 0; i < jkjasd.length; i++) {
+				    	  password= password+jkjasd[i];
+				      }	
+				 Connection conn = DriverManager.getConnection(url, user, password); 
 				    Statement operacje = conn.createStatement();
 				    operacje.execute("USE projektzespolowy");
 				    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+17+"','"+"Otworzenie wyszukiwania trasy przez "+nazwaU+"')";
@@ -326,7 +356,13 @@ public class PanelAdmina {
 		public void actionPerformed(ActionEvent arg0)
 		{
 			 try{
-				 Connection conn = DriverManager.getConnection(url, user, ""); 
+				 String password = "njymjmbnnmbn";
+			      char[] jkjasd = { 'p', 'r', 'o', 'j', 'e','k','t'};
+					  password="";
+					  for (int i = 0; i < jkjasd.length; i++) {
+				    	  password= password+jkjasd[i];
+				      }	
+				 Connection conn = DriverManager.getConnection(url, user, password); 
 				    Statement operacje = conn.createStatement();
 				    operacje.execute("USE projektzespolowy");
 				    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+18+"','"+"Otworzenie zarzadzania uzytkownikami przez "+nazwaU+"')";

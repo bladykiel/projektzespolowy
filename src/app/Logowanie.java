@@ -159,7 +159,7 @@ public class Logowanie {
 		 m.update(input.getBytes(),0,input.length());
 
 		 
-		 String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy" + 
+		/* String url = "jdbc:mysql://127.0.0.1:3306/projektzespolowy" + 
 				 "?useUnicode=true&characterEncoding=utf8";
 	      String user = "root";
 	      String password = "njymjmbnnmbn";
@@ -167,17 +167,17 @@ public class Logowanie {
 			  password="";
 			  for (int i = 0; i < jkjasd.length; i++) {
 		    	  password= password+jkjasd[i];
-		      }	
-		/* String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
+		      }	*/
+		 String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
 	      String user = "projektzespolowy";
 	      String password = "njymjmbnnmbn";
 	      char[] jkjasd = { 'p', 'r', 'o', 'j', 'e','k','t'};
 			  password="";
 			  for (int i = 0; i < jkjasd.length; i++) {
 		    	  password= password+jkjasd[i];
-		      }	*/
+		      }	
 		try{				
-		Connection con = DriverManager.getConnection(url, user, "");
+		Connection con = DriverManager.getConnection(url, user, password);
 		 
 		 
 	    Statement loginST = con.createStatement();
@@ -198,7 +198,7 @@ public class Logowanie {
 		    			System.out.println("admin");
 		    			//--------------------
 		    			
-		    			Connection con2 = DriverManager.getConnection(url, user, "");
+		    			Connection con2 = DriverManager.getConnection(url, user, password);
 		    			 
 		    			 
 		    		    Statement loginST2 = con.createStatement();
@@ -261,22 +261,22 @@ public class Logowanie {
 			    									 m2.update(input2.getBytes(),0,input2.length());
 			    									// System.out.println("MD51 "+new BigInteger(1,m.digest()).toString(16));
 
-			    									String url2 = "jdbc:mysql://127.0.0.1:3306/projektzespolowy";
+			    								/*	String url2 = "jdbc:mysql://127.0.0.1:3306/projektzespolowy";
 			    								      String user2 = "root";
 			    								      String password2 = "njymjmbnnmbn";
 			    								      char[] jkjasd2 = { 'a', 'd', 'm', 'i', 'n'};
 			    										  password2="";
 			    										  for (int i = 0; i < jkjasd2.length; i++) {
 			    									    	  password2= password2+jkjasd2[i];
-			    									      }		
-			    									/* String url = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
-			    								      String user = "projektzespolowy";
-			    								      String password = "njymjmbnnmbn";
-			    								      char[] jkjasd = { 'p', 'r', 'o', 'j', 'e','k','t'};
-			    										  password="";
-			    										  for (int i = 0; i < jkjasd.length; i++) {
-			    									    	  password= password+jkjasd[i];
-			    									      }	*/
+			    									      }		*/
+			    									String url2 = "jdbc:mysql://www.db4free.net:3306/projektzespolowy";
+			    								      String user2 = "projektzespolowy";
+			    								      String password2 = "njymjmbnnmbn";
+			    								      char[] jkjasd2 = { 'p', 'r', 'o', 'j', 'e','k','t'};
+			    										  password2="";
+			    										  for (int i = 0; i < jkjasd2.length; i++) {
+			    									    	  password2= password2+jkjasd2[i];
+			    									      }	
 			    									try{				
 			    									Connection con3 = DriverManager.getConnection(url2, user2, "");
 			    								    Statement loginST3 = con.createStatement();
@@ -296,7 +296,7 @@ public class Logowanie {
 			    							     
 			    							     	JOptionPane.showMessageDialog(LogowanieFrame, "Zmiana hasla pomyslna! Mozesz sie zalogowac nowym haslem!.");
 			    								
-			    							     	Connection conn = DriverManager.getConnection(url, user, ""); 
+			    							     	Connection conn = DriverManager.getConnection(url, user, password); 
 			    								    Statement operacje = conn.createStatement();
 			    								    operacje.execute("USE projektzespolowy");
 			    								    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+1+"','"+"Pomyslna zmiana hasla dla "+login.getText()+"')";
@@ -322,7 +322,7 @@ public class Logowanie {
 			    								 }
 			    								 else{
 			    									 JOptionPane.showMessageDialog(LogowanieFrame, "Haslo musi posiadac minimum 1 wielka litere.");
-			    									 Connection conn = DriverManager.getConnection(url, user, ""); 
+			    									 Connection conn = DriverManager.getConnection(url, user, password); 
 				    								    Statement operacje = conn.createStatement();
 				    								    operacje.execute("USE projektzespolowy");
 				    								    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+2+"','"+"Niepomyslna zmiana hasla dla "+login.getText()+"')";
@@ -332,7 +332,7 @@ public class Logowanie {
 			    							}
 			    							else{
 			    								JOptionPane.showMessageDialog(LogowanieFrame, "Haslo musi posiadac minimum 1 cyfry.");
-			    								 Connection conn = DriverManager.getConnection(url, user, ""); 
+			    								 Connection conn = DriverManager.getConnection(url, user, password); 
 			    								    Statement operacje = conn.createStatement();
 			    								    operacje.execute("USE projektzespolowy");
 			    								    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+3+"','"+"Niepomyslna zmiana hasla dla "+login.getText()+"')";
@@ -342,7 +342,7 @@ public class Logowanie {
 			    						}
 			    						else{
 			    							JOptionPane.showMessageDialog(LogowanieFrame, "Haslo musi skladac sie z min. 8 znakow i max. z 25 znakow.");
-			    							 Connection conn = DriverManager.getConnection(url, user, ""); 
+			    							 Connection conn = DriverManager.getConnection(url, user, password); 
 		    								    Statement operacje = conn.createStatement();
 		    								    operacje.execute("USE projektzespolowy");
 		    								    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+4+"','"+"Niepomyslna zmiana hasla dla "+login.getText()+"')";
@@ -354,7 +354,7 @@ public class Logowanie {
 			    						else
 			    						{
 			    							JOptionPane.showMessageDialog(LogowanieFrame, "Wpisano rozne hasla!");
-			    							 Connection conn = DriverManager.getConnection(url, user, ""); 
+			    							 Connection conn = DriverManager.getConnection(url, user, password); 
 		    								    Statement operacje = conn.createStatement();
 		    								    operacje.execute("USE projektzespolowy");
 		    								    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+5+"','"+"Niepomyslna zmiana hasla dla "+login.getText()+"')";
@@ -375,7 +375,7 @@ public class Logowanie {
 		    					else{
 		    						new PanelAdmina(login.getText(),LogowanieFrame.getLocation());
 		    		    			LogowanieFrame.dispose();
-		    		    			 Connection conn = DriverManager.getConnection(url, user, ""); 
+		    		    			 Connection conn = DriverManager.getConnection(url, user, password); 
  								    Statement operacje = conn.createStatement();
  								    operacje.execute("USE projektzespolowy");
  								    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+1+"','"+"Pomyslnie zalogowano "+login.getText()+"')";
@@ -396,7 +396,7 @@ public class Logowanie {
 		    			}
 		    			else{
 		    				JOptionPane.showMessageDialog(LogowanieFrame, "Twoje konto jest zbanowane...");
-		    				 Connection conn = DriverManager.getConnection(url, user, ""); 
+		    				 Connection conn = DriverManager.getConnection(url, user, password); 
 							    Statement operacje = conn.createStatement();
 							    operacje.execute("USE projektzespolowy");
 							    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+6+"','"+"Proba zalogowania sie na konto zbanowane "+login.getText()+"')";
@@ -416,7 +416,7 @@ public class Logowanie {
 				}
 		    	else{
 		    		JOptionPane.showMessageDialog(LogowanieFrame, "B³êdna nazwa u¿ytkonika lub haslo.");
-   				 Connection conn = DriverManager.getConnection(url, user, ""); 
+   				 Connection conn = DriverManager.getConnection(url, user, password); 
 					    Statement operacje = conn.createStatement();
 					    operacje.execute("USE projektzespolowy");
 					    String operacjeSQL = "INSERT INTO operacje (kod,opis) VALUES ('"+7+"','"+"Bledne dane logowania dla uzytkownika "+login.getText()+"')";
